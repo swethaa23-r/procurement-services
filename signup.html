@@ -119,16 +119,7 @@
     }
     .icon-right:hover { color: #fff; }
 
-    .password-strength {
-        display: flex; gap: 4px; margin-top: 8px;
-    }
-    .strength-bar {
-        flex: 1; height: 4px; border-radius: 2px; background: rgba(255,255,255,0.1);
-        transition: background 0.3s;
-    }
-    .strength-text {
-        font-size: 11px; color: rgba(255,255,255,0.4); margin-top: 4px; text-align: right;
-    }
+
 
     .checkbox-group {
         display: flex; align-items: flex-start; gap: 12px; margin-bottom: 24px;
@@ -214,63 +205,63 @@
                 <p class="form-sub">Get started with Stackly in just a few steps.</p>
             </div>
 
-            <form id="authForm">
+            <form id="authForm" novalidate>
                 <div class="field-group" data-aos="fade-up" data-aos-duration="1200" data-aos-delay="150">
                     <label class="field-label">Full Name</label>
                     <div class="input-wrapper">
                         <span class="material-symbols-rounded icon-left">person</span>
-                        <input type="text" class="input-box" placeholder="John Doe" required>
+                        <input type="text" id="sName" class="input-box" placeholder="John Doe" required>
                     </div>
+                    <span id="errSName" style="color: #ef4444; font-size: 12px; margin-top: 4px; display: none;">Please enter your full name.</span>
                 </div>
                 
                 <div class="field-group" data-aos="fade-up" data-aos-duration="1200" data-aos-delay="250">
                     <label class="field-label">Email Address</label>
                     <div class="input-wrapper">
                         <span class="material-symbols-rounded icon-left">mail</span>
-                        <input type="email" class="input-box" placeholder="hello@stackly.com" required>
+                        <input type="email" id="sEmail" class="input-box" placeholder="hello@stackly.com" required>
                     </div>
+                    <span id="errSEmail" style="color: #ef4444; font-size: 12px; margin-top: 4px; display: none;">Please enter a valid email address.</span>
                 </div>
 
                 <div class="field-group" data-aos="fade-up" data-aos-duration="1200" data-aos-delay="350">
                     <label class="field-label">Role</label>
                     <div class="input-wrapper">
                         <span class="material-symbols-rounded icon-left">badge</span>
-                        <select class="select-box" name="role" required>
+                        <select class="select-box" id="sRole" name="role" required>
                             <option value="" disabled selected>Select your role</option>
                             <option value="admin">Admin</option>
                             <option value="user">User</option>
                         </select>
                     </div>
+                    <span id="errSRole" style="color: #ef4444; font-size: 12px; margin-top: 4px; display: none;">Please select a role.</span>
                 </div>
 
                 <div class="field-group" data-aos="fade-up" data-aos-duration="1200" data-aos-delay="450">
                     <label class="field-label">Password</label>
                     <div class="input-wrapper">
                         <span class="material-symbols-rounded icon-left">key</span>
-                        <input type="password" id="pwd1" class="input-box" placeholder="Min. 8 characters" minlength="8" required oninput="checkStrength()">
+                        <input type="password" id="pwd1" class="input-box" placeholder="******" minlength="6" required>
                         <span class="material-symbols-rounded icon-right" onclick="togglePassword('pwd1', this)">visibility_off</span>
                     </div>
-                    <div class="password-strength">
-                        <div class="strength-bar" id="str1"></div>
-                        <div class="strength-bar" id="str2"></div>
-                        <div class="strength-bar" id="str3"></div>
-                    </div>
-                    <div class="strength-text" id="str-text">Weak</div>
+                    <span id="errSPwd1" style="color: #ef4444; font-size: 12px; margin-top: 4px; display: none;">Password must be at least 6 characters.</span>
                 </div>
                 
                 <div class="field-group" data-aos="fade-up" data-aos-duration="1200" data-aos-delay="550">
                     <label class="field-label">Confirm Password</label>
                     <div class="input-wrapper">
                         <span class="material-symbols-rounded icon-left">password</span>
-                        <input type="password" id="pwd2" class="input-box" placeholder="Confirm your password" minlength="8" required>
+                        <input type="password" id="pwd2" class="input-box" placeholder="******" minlength="6" required>
                         <span class="material-symbols-rounded icon-right" onclick="togglePassword('pwd2', this)">visibility_off</span>
                     </div>
+                    <span id="errSPwd2" style="color: #ef4444; font-size: 12px; margin-top: 4px; display: none;">Please confirm your password.</span>
                 </div>
 
                 <div class="checkbox-group" data-aos="fade-up" data-aos-duration="1200" data-aos-delay="650">
                     <input type="checkbox" class="custom-checkbox" id="terms" required>
                     <label for="terms">I agree to the <a href="#">Terms & Conditions</a> and <a href="#">Privacy Policy</a></label>
                 </div>
+                <span id="errSTerms" style="color: #ef4444; font-size: 12px; margin-top: 4px; display: none; margin-bottom: 12px;">You must agree to the terms.</span>
 
                 <button type="submit" class="btn-primary" data-aos="fade-up" data-aos-duration="1200" data-aos-delay="750">Create Account</button>
             </form>
@@ -297,43 +288,105 @@
         }
     }
 
-    function checkStrength() {
-        const val = document.getElementById('pwd1').value;
-        const b1 = document.getElementById('str1');
-        const b2 = document.getElementById('str2');
-        const b3 = document.getElementById('str3');
-        const txt = document.getElementById('str-text');
-        
-        let strength = 0;
-        if (val.length >= 8) strength++;
-        if (val.match(/[A-Z]/) || val.match(/[0-9]/)) strength++;
-        if (val.match(/[^a-zA-Z0-9]/)) strength++;
-        
-        if (val.length === 0) {
-            b1.style.background = b2.style.background = b3.style.background = 'rgba(255,255,255,0.1)';
-            txt.textContent = 'Weak';
-        } else if (strength === 1) {
-            b1.style.background = '#ef4444';
-            b2.style.background = b3.style.background = 'rgba(255,255,255,0.1)';
-            txt.textContent = 'Weak';
-        } else if (strength === 2) {
-            b1.style.background = b2.style.background = '#eab308';
-            b3.style.background = 'rgba(255,255,255,0.1)';
-            txt.textContent = 'Good';
+
+    const emailInput = document.getElementById('sEmail');
+    const errEmail = document.getElementById('errSEmail');
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+    function validateEmailRealtime() {
+        const emailVal = emailInput.value.trim();
+        if (emailVal !== '') {
+            if (!emailRegex.test(emailVal)) {
+                errEmail.innerText = "Please enter a valid email address (example@gmail.com).";
+                errEmail.style.display = 'block';
+                emailInput.style.border = '1px solid #ef4444';
+            } else {
+                errEmail.style.display = 'none';
+                emailInput.style.border = '';
+            }
         } else {
-            b1.style.background = b2.style.background = b3.style.background = '#22c55e';
-            txt.textContent = 'Strong';
+            errEmail.style.display = 'none';
+            emailInput.style.border = '';
         }
     }
 
+    emailInput.addEventListener('input', validateEmailRealtime);
+    emailInput.addEventListener('blur', validateEmailRealtime);
+
     document.getElementById('authForm').addEventListener('submit', function(e) {
         e.preventDefault();
-        const pwd1 = document.getElementById('pwd1').value;
-        const pwd2 = document.getElementById('pwd2').value;
-        if(pwd1 !== pwd2) {
-            alert("Passwords do not match!");
-            return;
+        
+        let valid = true;
+        const nameInput = document.getElementById('sName');
+        const roleInput = document.getElementById('sRole');
+        const pwd1 = document.getElementById('pwd1');
+        const pwd2 = document.getElementById('pwd2');
+        const terms = document.getElementById('terms');
+
+        const errName = document.getElementById('errSName');
+        const errRole = document.getElementById('errSRole');
+        const errPwd1 = document.getElementById('errSPwd1');
+        const errPwd2 = document.getElementById('errSPwd2');
+        const errTerms = document.getElementById('errSTerms');
+
+        if (!nameInput.value.trim()) {
+            errName.style.display = 'block';
+            nameInput.style.border = '1px solid #ef4444';
+            valid = false;
+        } else {
+            errName.style.display = 'none';
+            nameInput.style.border = '';
         }
+
+        const emailVal = emailInput.value.trim();
+        
+        if (!emailVal || !emailRegex.test(emailVal)) {
+            errEmail.innerText = "Please enter a valid email address (example@gmail.com).";
+            errEmail.style.display = 'block';
+            emailInput.style.border = '1px solid #ef4444';
+            valid = false;
+        } else {
+            errEmail.style.display = 'none';
+            emailInput.style.border = '';
+        }
+
+        if (!roleInput.value) {
+            errRole.style.display = 'block';
+            roleInput.style.border = '1px solid #ef4444';
+            valid = false;
+        } else {
+            errRole.style.display = 'none';
+            roleInput.style.border = '';
+        }
+
+        if (!pwd1.value.trim() || pwd1.value.length < 6) {
+            errPwd1.style.display = 'block';
+            pwd1.style.border = '1px solid #ef4444';
+            valid = false;
+        } else {
+            errPwd1.style.display = 'none';
+            pwd1.style.border = '';
+        }
+
+        if (!pwd2.value.trim() || pwd1.value !== pwd2.value) {
+            errPwd2.innerText = (pwd1.value !== pwd2.value && pwd2.value.trim()) ? "Passwords do not match." : "Please confirm your password.";
+            errPwd2.style.display = 'block';
+            pwd2.style.border = '1px solid #ef4444';
+            valid = false;
+        } else {
+            errPwd2.style.display = 'none';
+            pwd2.style.border = '';
+        }
+
+        if (!terms.checked) {
+            errTerms.style.display = 'block';
+            valid = false;
+        } else {
+            errTerms.style.display = 'none';
+        }
+
+        if (!valid) return;
+        
         // Redirect to login page as requested
         window.location.href = 'login.html';
     });

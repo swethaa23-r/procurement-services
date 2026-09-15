@@ -7,6 +7,7 @@
 <title>Services | Stackly</title>
 <!-- Tailwind CSS -->
 <script src="https://cdn.tailwindcss.com"></script>
+<script>tailwind.config = { corePlugins: { preflight: false } }</script>
 <!-- Google Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
 <!-- AOS Animation Library for interactivity -->
@@ -261,7 +262,11 @@
             </div>
         </div>
         <div class="preloader-progress-area">
-            <div class="pl-progress-track"><div class="pl-progress-bar"></div></div>
+            <div class="pl-progress-label">Loading</div>
+            <div class="pl-progress-bar">
+                <div class="pl-progress-fill" id="pl-progress-fill"></div>
+            </div>
+            <div class="pl-progress-percent" id="pl-progress-percent">0%</div>
         </div>
     </div>
 </div>
@@ -293,7 +298,7 @@
 <div class="bg-glow-2"></div>
 <div class="bg-glow-3"></div>
 <!-- MAIN CONTENT -->
-<main class="pt-[72px] relative z-10 w-full overflow-hidden"
+<main class="pt-[72px] relative z-10 w-full overflow-hidden">
 <!-- SECTION 1: Service Hero -->
 <section class="content-container pt-12 pb-12 lg:pt-16 lg:pb-16 flex flex-col gap-12 relative overflow-hidden rounded-3xl mt-4 border border-white/5 shadow-2xl">
 <img src="images/services_hero.webp" class="absolute inset-0 w-full h-full object-cover opacity-30 mix-blend-screen" alt="Procurement Services Background" />
@@ -607,9 +612,9 @@
 <!-- DIVIDER -->
 <hr class="border-white/10 m-0"/>
 <!-- BOTTOM COPYRIGHT -->
-<div class="flex flex-row justify-between items-center gap-4 pt-6" data-aos="fade-up" data-aos-delay="400" data-aos-duration="800">
-<p class="text-[14px] text-gray-500 m-0">Copyright &copy; 2026 Stackly <span style="margin: 0 12px; color: rgba(255,255,255,0.3);">|</span> Designed by Brandly</p>
-<div class="flex gap-6">
+<div class="flex flex-col sm:flex-row justify-between items-center gap-4 pt-6 text-center sm:text-left" data-aos="fade-up" data-aos-delay="400" data-aos-duration="800">
+<p class="text-[14px] text-gray-500 m-0">Copyright &copy; 2026 Stackly</p>
+<div class="flex gap-6 justify-center">
 <a class="text-[14px] text-gray-500 hover:text-[#3B82F6] transition-colors" href="404.html">Privacy Policies</a>
 <a class="text-[14px] text-gray-500 hover:text-[#3B82F6] transition-colors" href="404.html">Terms &amp; Condition</a>
 </div>
@@ -625,59 +630,7 @@
             easing: 'ease-out-cubic'
         });
     </script>
-<script>
-(function() {
-    var msgs = document.querySelectorAll('.pl-message');
-    var bar = document.querySelector('.pl-progress-bar');
-    var idx = 0;
-    var msgInterval = setInterval(function() {
-        if(msgs[idx]) msgs[idx].classList.remove('active');
-        idx++;
-        if(idx < msgs.length) { msgs[idx].classList.add('active'); }
-        if(idx >= msgs.length) clearInterval(msgInterval);
-    }, 500);
-    if(bar) { bar.style.transition='width 1.8s ease'; setTimeout(function(){ bar.style.width='100%'; },100); }
-    window.addEventListener('load', function() {
-        setTimeout(function(){
-            var pre = document.getElementById('preloader');
-            if(pre){ pre.classList.add('loaded'); }
-            document.body.classList.add('preloader-finished');
-        }, 1900);
-    });
-})();
-</script>
-<script>
-// Sticky navbar - adds scrolled class, never hides
-(function() {
-    var navbar = document.getElementById('navbar');
-    if (!navbar) return;
-    window.addEventListener('scroll', function() {
-        if (window.scrollY > 20) {
-            navbar.classList.add('scrolled');
-        } else {
-            navbar.classList.remove('scrolled');
-        }
-    }, { passive: true });
-    // Hamburger toggle
-        var btn = document.getElementById('hamburger-btn');
-    var menu = document.getElementById('nav-menu-wrapper');
-    if (btn && menu) {
-        btn.addEventListener('click', function() {
-            var isActive = btn.classList.toggle('active');
-            menu.classList.toggle('open');
-            document.body.style.overflow = isActive ? 'hidden' : '';
-        });
-        var navLinks = menu.querySelectorAll('a');
-        navLinks.forEach(function(link) {
-            link.addEventListener('click', function() {
-                btn.classList.remove('active');
-                menu.classList.remove('open');
-                document.body.style.overflow = '';
-            });
-        });
-    }
-})();
-</script>
+<script src="script.js"></script>
 </body>
 </html>
 

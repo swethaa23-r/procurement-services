@@ -116,10 +116,11 @@
                 <p class="form-sub">Enter your email and password to access your account.</p>
             </div>
 
-            <form id="authForm" data-aos="fade-up" data-aos-delay="100">
+            <form id="authForm" novalidate data-aos="fade-up" data-aos-delay="100">
                 <div class="field-group">
                     <label class="field-label">Email Address</label>
                     <input type="email" class="input-box" placeholder="hello@stackly.com" required>
+                    <span id="errEmail" style="color: #ef4444; font-size: 12px; margin-top: 4px; display: none;">Please enter a valid email address.</span>
                 </div>
 
                 <div class="field-group">
@@ -129,16 +130,18 @@
                         <option value="admin">Admin</option>
                         <option value="user">User</option>
                     </select>
+                    <span id="errRole" style="color: #ef4444; font-size: 12px; margin-top: 4px; display: none;">Please select a role.</span>
                 </div>
 
                 <div class="field-group">
                     <label class="field-label">Password</label>
                     <input type="password" class="input-box" placeholder="******" minlength="6" required>
+                    <span id="errPassword" style="color: #ef4444; font-size: 12px; margin-top: 4px; display: none;">Please enter your password.</span>
                 </div>
 
                 <div class="row-between">
                     <label class="checkbox-label">
-                        <input type="checkbox" required> Remember Password
+                        <input type="checkbox"> Remember Password
                     </label>
                     <a href="404.html" class="forgot-link">Forgot Password?</a>
                 </div>
@@ -158,11 +161,75 @@
 <script>
     AOS.init({ duration: 800, once: true });
     
+    const emailInput = document.querySelector('input[type="email"]');
+    const errEmail = document.getElementById('errEmail');
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+    
+    function validateEmailRealtime() {
+        const emailVal = emailInput.value.trim();
+        if (emailVal !== '') {
+            if (!emailRegex.test(emailVal)) {
+                errEmail.innerText = "Please enter a valid email address (example@gmail.com).";
+                errEmail.style.display = 'block';
+                emailInput.style.border = '1px solid #ef4444';
+            } else {
+                errEmail.style.display = 'none';
+                emailInput.style.border = '';
+            }
+        } else {
+            errEmail.style.display = 'none';
+            emailInput.style.border = '';
+        }
+    }
+
+    emailInput.addEventListener('input', validateEmailRealtime);
+    emailInput.addEventListener('blur', validateEmailRealtime);
+
     document.getElementById('authForm').addEventListener('submit', function(e) {
         e.preventDefault();
-        const email = document.querySelector('input[type="email"]').value; 
+        
+        let valid = true;
+        const roleInput = document.querySelector('select[name="role"]');
+        const passwordInput = document.querySelector('input[type="password"]');
+
+        const errRole = document.getElementById('errRole');
+        const errPassword = document.getElementById('errPassword');
+
+        const emailVal = emailInput.value.trim();
+        
+        if (!emailVal || !emailRegex.test(emailVal)) {
+            errEmail.innerText = "Please enter a valid email address (example@gmail.com).";
+            errEmail.style.display = 'block';
+            emailInput.style.border = '1px solid #ef4444';
+            valid = false;
+        } else {
+            errEmail.style.display = 'none';
+            emailInput.style.border = '';
+        }
+
+        if (!roleInput.value) {
+            errRole.style.display = 'block';
+            roleInput.style.border = '1px solid #ef4444';
+            valid = false;
+        } else {
+            errRole.style.display = 'none';
+            roleInput.style.border = '';
+        }
+
+        if (!passwordInput.value.trim() || passwordInput.value.length < 6) {
+            errPassword.style.display = 'block';
+            passwordInput.style.border = '1px solid #ef4444';
+            valid = false;
+        } else {
+            errPassword.style.display = 'none';
+            passwordInput.style.border = '';
+        }
+
+        if (!valid) return;
+
+        const email = emailInput.value; 
         localStorage.setItem("stackly_user_email", email); 
-        const role = document.querySelector('select[name="role"]').value;
+        const role = roleInput.value;
         if (role === 'admin') {
             window.location.href = 'admin/index.html';
         } else {
