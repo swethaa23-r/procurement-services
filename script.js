@@ -1,11 +1,25 @@
 // ── PRELOADER LOGIC ──
 const initPreloader = () => {
     const preloader = document.getElementById('preloader');
-    if (!preloader) return;
+    if (!preloader) {
+        document.body.classList.add('preloader-finished');
+        return;
+    }
 
     const messages = document.querySelectorAll('.pl-message');
     const fill = document.getElementById('pl-progress-fill');
     const percentTxt = document.getElementById('pl-progress-percent');
+    
+    if (!fill || !percentTxt) {
+        document.body.classList.add('preloader-finished');
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                preloader.style.opacity = '0';
+                setTimeout(() => { preloader.style.display = 'none'; }, 600);
+            }, 300);
+        });
+        return;
+    }
     
     let msgIndex = 0;
     const msgInterval = setInterval(() => {
@@ -267,14 +281,19 @@ document.addEventListener('DOMContentLoaded', () => {
     // ── 2. MOBILE HAMBURGER MENU (SAFE SCROLL LOCK)
     const hamburgerBtn = document.getElementById('hamburger-btn');
     const navMenuWrapper = document.getElementById('nav-menu-wrapper');
+    let savedScrollY = 0;
     let isMenuOpen = false;
 
     if (hamburgerBtn && navMenuWrapper) {
         const openMenu = () => {
             isMenuOpen = true;
+            savedScrollY = window.scrollY;
             hamburgerBtn.classList.add('active');
             navMenuWrapper.classList.add('open');
-            document.body.style.overflow = 'hidden';
+            document.body.style.position = 'fixed';
+            document.body.style.top = `-${savedScrollY}px`;
+            document.body.style.width = '100%';
+            document.body.style.overflowY = 'hidden';
         };
 
         const closeMenu = () => {
@@ -282,7 +301,11 @@ document.addEventListener('DOMContentLoaded', () => {
             isMenuOpen = false;
             hamburgerBtn.classList.remove('active');
             navMenuWrapper.classList.remove('open');
-            document.body.style.overflow = '';
+            document.body.style.position = '';
+            document.body.style.top = '';
+            document.body.style.width = '';
+            document.body.style.overflowY = '';
+            window.scrollTo(0, savedScrollY);
         };
 
         hamburgerBtn.addEventListener('click', () => {
@@ -628,27 +651,30 @@ document.addEventListener('DOMContentLoaded', () => {
     // Scrollspy removed as requested by user to keep Home active on the home page.
     
     // Smooth scroll for nav links
-    navLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
-            e.preventDefault();
-            const targetId = this.getAttribute('href').substring(1);
-            const targetSection = document.getElementById(targetId);
-            if (targetSection) {
-                // close hamburger if open
-                if (navMenu.classList.contains('open')) {
-                    navMenu.classList.remove('open');
-                    hamburgerBtn.classList.remove('active');
-                    document.body.style.overflow = '';
-                    document.body.style.overflowX = 'hidden';
+    const navLinks = document.querySelectorAll('.nav-links a');
+    if (navLinks) {
+        navLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                if (href && href.startsWith('#') && href.length > 1) {
+                    const targetId = href.substring(1);
+                    const targetSection = document.getElementById(targetId);
+                    if (targetSection) {
+                        e.preventDefault();
+                        // close hamburger if open
+                        if (navMenuWrapper && navMenuWrapper.classList.contains('open')) {
+                            closeMenu();
+                        }
+                        
+                        targetSection.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
                 }
-                
-                targetSection.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-            }
+            });
         });
-    });
+    }
     
     // 2. Circular Metrics Counting Animation
     const statsCounters = document.querySelectorAll('.stat-counter');
