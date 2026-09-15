@@ -1,25 +1,11 @@
 // ── PRELOADER LOGIC ──
 const initPreloader = () => {
     const preloader = document.getElementById('preloader');
-    if (!preloader) {
-        document.body.classList.add('preloader-finished');
-        return;
-    }
+    if (!preloader) return;
 
     const messages = document.querySelectorAll('.pl-message');
     const fill = document.getElementById('pl-progress-fill');
     const percentTxt = document.getElementById('pl-progress-percent');
-    
-    if (!fill || !percentTxt) {
-        document.body.classList.add('preloader-finished');
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                preloader.style.opacity = '0';
-                setTimeout(() => { preloader.style.display = 'none'; }, 600);
-            }, 300);
-        });
-        return;
-    }
     
     let msgIndex = 0;
     const msgInterval = setInterval(() => {
@@ -651,30 +637,27 @@ document.addEventListener('DOMContentLoaded', () => {
     // Scrollspy removed as requested by user to keep Home active on the home page.
     
     // Smooth scroll for nav links
-    const navLinks = document.querySelectorAll('.nav-links a');
-    if (navLinks) {
-        navLinks.forEach(link => {
-            link.addEventListener('click', function(e) {
-                const href = this.getAttribute('href');
-                if (href && href.startsWith('#') && href.length > 1) {
-                    const targetId = href.substring(1);
-                    const targetSection = document.getElementById(targetId);
-                    if (targetSection) {
-                        e.preventDefault();
-                        // close hamburger if open
-                        if (navMenuWrapper && navMenuWrapper.classList.contains('open')) {
-                            closeMenu();
-                        }
-                        
-                        targetSection.scrollIntoView({
-                            behavior: 'smooth',
-                            block: 'start'
-                        });
-                    }
+    navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href').substring(1);
+            const targetSection = document.getElementById(targetId);
+            if (targetSection) {
+                // close hamburger if open
+                if (navMenu.classList.contains('open')) {
+                    navMenu.classList.remove('open');
+                    hamburgerBtn.classList.remove('active');
+                    document.body.style.overflow = '';
+                    document.body.style.overflowX = 'hidden';
                 }
-            });
+                
+                targetSection.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
         });
-    }
+    });
     
     // 2. Circular Metrics Counting Animation
     const statsCounters = document.querySelectorAll('.stat-counter');
