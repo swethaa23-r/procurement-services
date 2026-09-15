@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Contact | Stackly</title>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com"></script>
+<script>tailwind.config = { corePlugins: { preflight: false } }</script>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- AOS Animation Library for interactivity -->
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet"/>
+<style>
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #060A20; /* Deep Navy to exactly match Home page */
+            color: #ffffff;
+            
+            margin: 0;
+            padding: 0;
+        }
+
+        /* --- Glowing Ambient Backgrounds --- */
+        .bg-glow-1 {
+            position: absolute; top: -10%; left: -10%; width: 70vw; height: 70vh;
+            background: radial-gradient(circle, rgba(37, 99, 235, 0.15) 0%, transparent 70%);
+            border-radius: 50%; filter: blur(100px); z-index: -1; pointer-events: none;
+        }
+        .bg-glow-2 {
+            position: absolute; top: 30%; right: -10%; width: 60vw; height: 60vh;
+            background: radial-gradient(circle, rgba(29, 78, 216, 0.12) 0%, transparent 60%);
+            border-radius: 50%; filter: blur(100px); z-index: -1; pointer-events: none;
+        }
+        .bg-glow-3 {
+            position: absolute; bottom: 0%; left: -10%; width: 60vw; height: 60vh;
+            background: radial-gradient(circle, rgba(37, 99, 235, 0.15) 0%, transparent 70%);
+            border-radius: 50%; filter: blur(100px); z-index: -1; pointer-events: none;
+        }
+
+        /* --- Typography --- */
+        .h1-text {
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            line-height: 1.15;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+        .body-text {
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.65);
+            line-height: 1.8;
+        }
+        
+        /* --- Glassmorphism Cards (Premium Feel) --- */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            border-radius: 16px;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .glass-card:hover {
+            background: rgba(59, 130, 246, 0.05);
+            border-color: rgba(59, 130, 246, 0.3);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3), 0 0 25px rgba(59, 130, 246, 0.15);
+        }
+
+        /* --- Timeline Styling & Animation --- */
+        .timeline-line-container {
+            position: absolute; top: 0; bottom: 0; left: 50%; transform: translateX(-50%);
+            width: 2px; background: rgba(255,255,255,0.08); z-index: 1; overflow: hidden;
+        }
+        .timeline-line-glow {
+            position: absolute; top: 0; left: 0; width: 100%; height: 150px;
+            background: linear-gradient(to bottom, transparent, #3B82F6, #60A5FA, transparent);
+            animation: travelLine 4s infinite cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 0 15px #3B82F6;
+        }
+        @keyframes travelLine {
+            0% { top: -150px; opacity: 0; }
+            20% { opacity: 1; }
+            80% { opacity: 1; }
+            100% { top: 100%; opacity: 0; }
+        }
+        .timeline-step {
+            position: relative; z-index: 2; padding: 25px 0; font-size: 0.8rem; font-weight: 500;
+            color: rgba(255,255,255,0.4); letter-spacing: 0.1em; text-transform: uppercase;
+            transition: all 0.4s ease;
+        }
+        .timeline-step:hover {
+            color: #60A5FA; text-shadow: 0 0 15px rgba(96, 165, 250, 0.5); transform: scale(1.05);
+        }
+
+        /* --- Floating Animations --- */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+        .animate-float { animation: float 7s ease-in-out infinite; }
+        .animate-float-delayed { animation: float 7s ease-in-out 3.5s infinite; }
+        
+        .floating-circle {
+            width: 280px; height: 280px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            padding: 40px; text-align: center;
+        }
+        @media (max-width: 1024px) {
+            .floating-circle { width: 100%; height: auto; border-radius: 16px; padding: 30px; animation: none; }
+        }
+
+        /* --- Image & Section Styling --- */
+        .section-padding { padding: 40px 0; }
+        .content-container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+
+        .hero-banner-container {
+            position: relative; border-radius: 12px; overflow: hidden;
+        }
+        .hero-banner-container::after {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(to top, rgba(6,10,32,0.8) 0%, transparent 50%);
+            pointer-events: none; z-index: 10;
+        }
+        .hero-banner {
+            width: 100%; height: 380px; object-fit: cover;
+            transition: transform 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .hero-banner-container:hover .hero-banner { transform: scale(1.04); }
+
+        .mission-img-wrapper {
+            position: relative; z-index: 2; padding: 20px; display: flex; justify-content: center;
+        }
+        .mission-img-wrapper::before {
+            content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 140%; height: 140%;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.3) 0%, transparent 60%);
+            z-index: -1; filter: blur(40px); transition: opacity 0.6s ease; opacity: 0.6;
+        }
+        .mission-img-wrapper:hover::before { opacity: 1; background: radial-gradient(circle, rgba(59, 130, 246, 0.5) 0%, transparent 65%); }
+        
+        .btn-premium {
+            position: relative; overflow: hidden;
+            background: #0D1432; border: 1px solid rgba(59, 130, 246, 0.4);
+            color: #fff; padding: 14px 32px; border-radius: 6px; font-weight: 600; font-size: 13px;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.1);
+            z-index: 1; display: inline-block; text-decoration: none; text-align: center;
+        }
+        .btn-premium::before {
+            content: ''; position: absolute; inset: 0; background: #2563EB;
+            z-index: -1; transform: translateY(100%); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .btn-premium:hover { border-color: #3B82F6; box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3); color: #fff; }
+        .btn-premium:hover::before { transform: translateY(0); }
+
+        /* --- Custom CTA Looking Ahead styles matching Home Page --- */
+        .final-cta-section {
+            position: relative;
+            width: 100%;
+            padding: 40px 24px;
+            background: linear-gradient(180deg, #081033 0%, #040716 100%);
+            overflow: hidden;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            text-align: center;
+        }
+        .cta-gradient-bg {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 120%;
+            height: 120%;
+            background: radial-gradient(circle at center, rgba(16, 42, 115, 0.4) 0%, transparent 70%);
+            z-index: 1;
+            pointer-events: none;
+        }
+        .final-cta-container {
+            position: relative;
+            max-width: 860px;
+            margin: 0 auto;
+            z-index: 2;
+        }
+        .large-cta-heading {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 600;
+            line-height: 1.15;
+            letter-spacing: -0.02em;
+            margin-bottom: 24px;
+            color: #ffffff;
+        }
+        .cta-support-text {
+            font-size: 18px;
+            line-height: 1.68;
+            color: rgba(255, 255, 255, 0.76);
+            max-width: 680px;
+            margin: 0 auto 32px;
+        }
+        .cta-primary-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: #ffffff;
+            color: #040716;
+            padding: 16px 40px;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 4px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .cta-primary-btn:hover {
+            background: #f0f0f0;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+    </style>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="styles.css" rel="stylesheet"/>
+</head>
+<body class="relative preloader-finished overflow-x-hidden">
+<header class="navbar" id="navbar">
+<div class="nav-inner">
+    <a class="logo" href="index.html">
+        <img src="logo.webp" alt="Stackly" style="height:64px;width:auto;" />
+    </a>
+    <div class="nav-menu-wrapper" id="nav-menu-wrapper">
+        <nav class="nav-links">
+            <a class="nav-link " href="index.html">Home</a>
+            <a class="nav-link " href="about.html">About</a>
+            <a class="nav-link " href="services.html">Services</a>
+            <a class="nav-link " href="blog.html">Blog</a>
+            <a class="nav-link active" href="contact.html">Contact</a>
+        </nav>
+        <div class="nav-auth">
+            <a class="login-btn" href="login.html">Log in</a>
+            <a class="btn-primary" href="signup.html">Get Started</a>
+        </div>
+    </div>
+    <button class="hamburger-btn" id="hamburger-btn" aria-label="Toggle navigation">
+        <span></span><span></span><span></span>
+    </button>
+</div>
+</header>
+<!-- CONTENT PRELOADER -->
+<div id="preloader" class="preloader">
+    <div class="preloader-bg-particles"></div>
+    <div class="preloader-content">
+        <div class="preloader-logo-wrapper">
+            <img src="logo.webp" alt="Stackly" class="preloader-logo" />
+        </div>
+        <div class="preloader-animation">
+            <div class="pl-nodes-container">
+                <div class="pl-node pl-node-1">
+                    <div class="pl-icon-circle"><i class="fa-solid fa-magnifying-glass"></i></div>
+                    <div class="pl-node-text">SOURCE</div>
+                </div>
+                <div class="pl-line pl-line-1"></div>
+                <div class="pl-node pl-node-2">
+                    <div class="pl-icon-circle"><i class="fa-solid fa-truck"></i></div>
+                    <div class="pl-node-text">SUPPLIER</div>
+                </div>
+                <div class="pl-line pl-line-2"></div>
+                <div class="pl-node pl-node-3">
+                    <div class="pl-icon-circle"><i class="fa-solid fa-file-signature"></i></div>
+                    <div class="pl-node-text">CONTRACT</div>
+                </div>
+                <div class="pl-line pl-line-3"></div>
+                <div class="pl-node pl-node-4">
+                    <div class="pl-icon-circle pl-icon-accent"><i class="fa-solid fa-check-double"></i></div>
+                    <div class="pl-node-text pl-node-text-accent">PROCURE</div>
+                </div>
+            </div>
+        </div>
+        <div class="preloader-text-area">
+            <h3 class="pl-heading">Procurement, built around your business</h3>
+            <div class="pl-message-container">
+                <span class="pl-message active">Strategic sourcing...</span>
+                <span class="pl-message">Connecting suppliers...</span>
+                <span class="pl-message">Optimizing procurement...</span>
+                <span class="pl-message">Building partnerships...</span>
+            </div>
+        </div>
+        <div class="preloader-progress-area">
+            <div class="pl-progress-track"><div class="pl-progress-bar"></div></div>
+        </div>
+    </div>
+</div>
+<!-- Global Background Glows -->
+<div class="bg-glow-1"></div>
+<div class="bg-glow-2"></div>
+<div class="bg-glow-3"></div>
+<!-- MAIN CONTENT -->
+<main class="pt-[72px] relative z-10 w-full overflow-hidden">
+    
+    <!-- 1. Hero Section matching Screenshot 1 -->
+    <section class="content-container pt-16 pb-24 relative">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            
+            <!-- Left Text Content -->
+            <div data-aos="fade-right">
+                <div class="inline-block bg-white/5 border border-white/10 rounded-full px-5 py-2 mb-6">
+                    <span class="text-[#3B82F6] text-sm font-medium tracking-wide">We'd Love to Hear From You</span>
+                </div>
+                
+                <h1 class="text-[3rem] md:text-[4rem] font-bold text-white leading-tight mb-6">
+                    Let's Create <br class="hidden md:block"/> Something <span class="text-[#3B82F6]">Exceptional</span> <br class="hidden md:block"/> Together
+                </h1>
+                
+                <p class="text-gray-400 text-base leading-relaxed max-w-md mb-10">
+                    Whether you're streamlining a supply chain, optimizing your spend, or simply looking for better ways to manage contracts, our procurement experts are here to help make every decision impactful.
+                </p>
+                
+                <div class="flex flex-wrap gap-4">
+                    <a href="404.html" class="bg-[#3B82F6] hover:bg-blue-600 transition-colors text-white px-8 py-3.5 rounded-full font-medium shadow-[0_0_20px_rgba(59,130,246,0.3)]">Get In Touch</a>
+                    <a href="404.html" class="bg-white/5 hover:bg-white/10 transition-colors border border-white/10 text-white px-8 py-3.5 rounded-full font-medium">View Our Location</a>
+                </div>
+            </div>
+            
+            <!-- Right Image Content -->
+            <div class="relative" data-aos="fade-left">
+                <!-- Large Rounded Image Container -->
+                <div class="rounded-3xl overflow-hidden w-full h-[500px] border border-white/10 relative shadow-2xl shadow-blue-500/10">
+                    <img src="images/strategic-spend.webp" alt="Procurement Experts" class="w-full h-full object-cover" onerror="this.src='images/hero.webp'">
+                    <!-- Overlay gradient -->
+                    <div class="absolute inset-0 bg-gradient-to-t from-[#060A20]/80 via-transparent to-transparent"></div>
+                </div>
+                
+                <!-- Floating Badges -->
+                <div class="absolute top-10 right-[-20px] bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-5 py-2 shadow-xl animate-float">
+                    <span class="text-white text-sm font-medium">Available 7 Days</span>
+                </div>
+                
+                <div class="absolute bottom-32 left-[-30px] bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-5 py-2 shadow-xl animate-float-delayed">
+                    <span class="text-white text-sm font-medium">Global Suppliers</span>
+                </div>
+                
+                <div class="absolute bottom-10 right-10 bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-5 py-2 shadow-xl animate-float">
+                    <span class="text-white text-sm font-medium">5.0 Customer Rating</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. Contact Details Grid -->
+    <section class="content-container relative z-20 -mt-12 mb-16">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            
+            <!-- Card 1: Phone -->
+            <div data-aos="fade-up" data-aos-delay="0" class="bg-white/5 backdrop-blur-2xl border border-white/10 rounded-2xl p-6 flex flex-col items-center text-center gap-4 shadow-[0_10px_30px_rgba(0,0,0,0.3)] hover:-translate-y-3 hover:border-[#3B82F6]/50 hover:shadow-[0_15px_40px_rgba(59,130,246,0.2)] transition-all duration-300 group">
+                <div class="w-14 h-14 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400 text-xl group-hover:scale-110 group-hover:bg-[#3B82F6] group-hover:text-white transition-all duration-300">
+                    <i class="fas fa-phone-alt"></i>
+                </div>
+                <div>
+                    <span class="block text-xs text-gray-400 uppercase tracking-wider mb-2">Phone</span>
+                    <span class="block text-white font-medium text-lg">+91 90909 09090</span>
+                </div>
+            </div>
+            
+            <!-- Card 2: Email -->
+            <div data-aos="fade-up" data-aos-delay="100" class="bg-white/5 backdrop-blur-2xl border border-white/10 rounded-2xl p-6 flex flex-col items-center text-center gap-4 shadow-[0_10px_30px_rgba(0,0,0,0.3)] hover:-translate-y-3 hover:border-[#3B82F6]/50 hover:shadow-[0_15px_40px_rgba(59,130,246,0.2)] transition-all duration-300 group">
+                <div class="w-14 h-14 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400 text-xl group-hover:scale-110 group-hover:bg-[#3B82F6] group-hover:text-white transition-all duration-300">
+                    <i class="fas fa-envelope"></i>
+                </div>
+                <div>
+                    <span class="block text-xs text-gray-400 uppercase tracking-wider mb-2">Email</span>
+                    <span class="block text-white font-medium text-lg">info@stackly.com</span>
+                </div>
+            </div>
+            
+            <!-- Card 3: Business Hours -->
+            <div data-aos="fade-up" data-aos-delay="200" class="bg-white/5 backdrop-blur-2xl border border-white/10 rounded-2xl p-6 flex flex-col items-center text-center gap-4 shadow-[0_10px_30px_rgba(0,0,0,0.3)] hover:-translate-y-3 hover:border-[#3B82F6]/50 hover:shadow-[0_15px_40px_rgba(59,130,246,0.2)] transition-all duration-300 group">
+                <div class="w-14 h-14 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400 text-xl group-hover:scale-110 group-hover:bg-[#3B82F6] group-hover:text-white transition-all duration-300">
+                    <i class="far fa-clock"></i>
+                </div>
+                <div>
+                    <span class="block text-xs text-gray-400 uppercase tracking-wider mb-2">Business Hours</span>
+                    <span class="block text-white font-medium text-[15px] leading-tight">Mon-Fri: 8 AM - 7 PM<br>Sat: 9 AM - 5 PM</span>
+                </div>
+            </div>
+            
+            <!-- Card 4: Location -->
+            <div data-aos="fade-up" data-aos-delay="300" class="bg-white/5 backdrop-blur-2xl border border-white/10 rounded-2xl p-6 flex flex-col items-center text-center gap-4 shadow-[0_10px_30px_rgba(0,0,0,0.3)] hover:-translate-y-3 hover:border-[#3B82F6]/50 hover:shadow-[0_15px_40px_rgba(59,130,246,0.2)] transition-all duration-300 group">
+                <div class="w-14 h-14 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400 text-xl group-hover:scale-110 group-hover:bg-[#3B82F6] group-hover:text-white transition-all duration-300">
+                    <i class="fas fa-map-marker-alt"></i>
+                </div>
+                <div>
+                    <span class="block text-xs text-gray-400 uppercase tracking-wider mb-2">Location</span>
+                    <span class="block text-white font-medium text-sm leading-snug">MMR complex, Chinna Thirupathi,<br>near Chinna Muniyappan Kovil,<br>Salem-636008</span>
+                </div>
+            </div>
+            
+        </div>
+        
+        <!-- Common Button Below -->
+        <div class="flex justify-center mt-10" data-aos="fade-up" data-aos-delay="100">
+            <a href="404.html" class="bg-[#3B82F6] hover:bg-blue-600 transition-colors text-white px-8 py-4 rounded-full font-medium shadow-[0_0_20px_rgba(59,130,246,0.3)] text-lg">
+                Book a Consultation
+            </a>
+        </div>
+    </section>
+
+    <!-- 3. Contact Info & Form Section (Matching Screenshot 2 Bottom) -->
+    <section id="form" class="content-container py-16">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
+            
+            <!-- Left Info -->
+            <div data-aos="fade-right">
+                <h2 class="text-3xl font-bold text-white mb-6">Contact Information</h2>
+                <p class="text-gray-400 leading-relaxed mb-10 max-w-md">
+                    Whether you have a question about our services, need a custom strategy for your procurement, or just want to say hello, our team is ready to answer all your questions.
+                </p>
+                
+                <div class="flex flex-col gap-8 mb-12">
+                    <div data-aos="fade-right" data-aos-delay="100" class="flex items-start gap-5 group cursor-pointer hover:translate-x-2 transition-transform duration-300">
+                        <div class="w-14 h-14 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-[#3B82F6] shrink-0 text-xl group-hover:bg-[#3B82F6] group-hover:border-[#3B82F6] group-hover:text-white group-hover:shadow-[0_0_20px_rgba(59,130,246,0.5)] transition-all duration-300">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-white font-medium text-lg mb-1">Our Office</h4>
+                            <p class="text-gray-400 text-sm leading-relaxed">MMR complex, Chinna Thirupathi,<br>near Chinna Muniyappan Kovil,<br>Salem-636008</p>
+                        </div>
+                    </div>
+                    
+                    <div data-aos="fade-right" data-aos-delay="200" class="flex items-start gap-5 group cursor-pointer hover:translate-x-2 transition-transform duration-300">
+                        <div class="w-14 h-14 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-[#3B82F6] shrink-0 text-xl group-hover:bg-[#3B82F6] group-hover:border-[#3B82F6] group-hover:text-white group-hover:shadow-[0_0_20px_rgba(59,130,246,0.5)] transition-all duration-300">
+                            <i class="fas fa-phone-alt"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-white font-medium text-lg mb-1">Phone</h4>
+                            <p class="text-gray-400 text-sm">+91 90909 09090</p>
+                        </div>
+                    </div>
+                    
+                    <div data-aos="fade-right" data-aos-delay="300" class="flex items-start gap-5 group cursor-pointer hover:translate-x-2 transition-transform duration-300">
+                        <div class="w-14 h-14 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-[#3B82F6] shrink-0 text-xl group-hover:bg-[#3B82F6] group-hover:border-[#3B82F6] group-hover:text-white group-hover:shadow-[0_0_20px_rgba(59,130,246,0.5)] transition-all duration-300">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-white font-medium text-lg mb-1">Email</h4>
+                            <p class="text-gray-400 text-sm">info@stackly.com</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <h3 class="text-xl font-bold text-white mb-6">Opening Hours</h3>
+                <div class="max-w-md">
+                    <div class="flex justify-between items-center border-b border-white/10 py-3">
+                        <span class="text-gray-400">Monday - Friday:</span>
+                        <span class="text-white">8:00 AM - 7:00 PM</span>
+                    </div>
+                    <div class="flex justify-between items-center border-b border-white/10 py-3">
+                        <span class="text-gray-400">Saturday:</span>
+                        <span class="text-white">9:00 AM - 5:00 PM</span>
+                    </div>
+                    <div class="flex justify-between items-center py-3">
+                        <span class="text-gray-400">Sunday:</span>
+                        <span class="text-white">Closed</span>
+                    </div>
+                </div>
+                
+                <div class="mt-8">
+                    <a href="404.html" class="inline-flex items-center gap-2 bg-[#25D366] hover:bg-[#20b858] text-white px-6 py-3 rounded-full font-medium transition-colors shadow-lg shadow-[#25D366]/20">
+                        <i class="fab fa-whatsapp text-lg"></i>
+                        Chat on WhatsApp
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Right Form Card -->
+            <div data-aos="fade-left">
+                <div class="bg-white/5 backdrop-blur-xl border border-white/10 rounded-[2.5rem] p-10 shadow-2xl relative overflow-hidden">
+                    <!-- Decorative glow inside form -->
+                    <div class="absolute top-0 right-0 w-64 h-64 bg-blue-500/10 rounded-full filter blur-[80px]"></div>
+                    
+                    <h3 class="text-2xl font-bold text-white mb-8 relative z-10">Send a Message</h3>
+                    
+                                        <form id="contactForm" onsubmit="return validateContactForm(event)" class="flex flex-col gap-6 relative z-10">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <input type="text" id="cName" placeholder="Your Name" class="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white focus:ring-2 focus:ring-[#3B82F6]/50 focus:border-transparent focus:bg-white/10 hover:border-white/30 transition-all duration-300 outline-none placeholder-gray-500">
+                                <span id="errName" class="text-red-400 text-xs hidden mt-1 block">Please enter your name.</span>
+                            </div>
+                            <div>
+                                <input type="email" id="cEmail" placeholder="Your Email" class="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white focus:ring-2 focus:ring-[#3B82F6]/50 focus:border-transparent focus:bg-white/10 hover:border-white/30 transition-all duration-300 outline-none placeholder-gray-500">
+                                <span id="errEmail" class="text-red-400 text-xs hidden mt-1 block">Please enter a valid email address.</span>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <input type="text" id="cSubject" placeholder="Subject" class="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white focus:ring-2 focus:ring-[#3B82F6]/50 focus:border-transparent focus:bg-white/10 hover:border-white/30 transition-all duration-300 outline-none placeholder-gray-500">
+                            <span id="errSubject" class="text-red-400 text-xs hidden mt-1 block">Please enter a subject.</span>
+                        </div>
+                        
+                        <div>
+                            <textarea id="cMessage" placeholder="Your Message" rows="5" class="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white focus:ring-2 focus:ring-[#3B82F6]/50 focus:border-transparent focus:bg-white/10 hover:border-white/30 transition-all duration-300 outline-none placeholder-gray-500 resize-none"></textarea>
+                            <span id="errMessage" class="text-red-400 text-xs hidden mt-1 block">Please enter your message.</span>
+                        </div>
+                        
+                        <div>
+                            <button type="submit" class="bg-[#3B82F6] hover:bg-blue-600 transition-colors text-white px-10 py-4 rounded-full font-medium shadow-[0_0_20px_rgba(59,130,246,0.3)] w-full md:w-auto mt-2">
+                                Send Message
+                            </button>
+                        </div>
+                    </form>
+                    
+                    <script>
+                        function validateContactForm(e) {
+                            e.preventDefault();
+                            let valid = true;
+                            
+                            const name = document.getElementById('cName');
+                            const email = document.getElementById('cEmail');
+                            const subject = document.getElementById('cSubject');
+                            const message = document.getElementById('cMessage');
+                            
+                            if (!name.value.trim()) { document.getElementById('errName').classList.remove('hidden'); name.classList.add('border-red-500'); valid = false; }
+                            else { document.getElementById('errName').classList.add('hidden'); name.classList.remove('border-red-500'); }
+                            
+                            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                            if (!email.value.trim() || !emailRegex.test(email.value)) { document.getElementById('errEmail').classList.remove('hidden'); email.classList.add('border-red-500'); valid = false; }
+                            else { document.getElementById('errEmail').classList.add('hidden'); email.classList.remove('border-red-500'); }
+                            
+                            if (!subject.value.trim()) { document.getElementById('errSubject').classList.remove('hidden'); subject.classList.add('border-red-500'); valid = false; }
+                            else { document.getElementById('errSubject').classList.add('hidden'); subject.classList.remove('border-red-500'); }
+                            
+                            if (!message.value.trim()) { document.getElementById('errMessage').classList.remove('hidden'); message.classList.add('border-red-500'); valid = false; }
+                            else { document.getElementById('errMessage').classList.add('hidden'); message.classList.remove('border-red-500'); }
+                            
+                            if (valid) { window.location.href = '404.html'; }
+                            return false;
+                        }
+                    </script>
+                </div>
+            </div>
+            
+        </div>
+    </section>
+
+    <!-- 4. Map Section (Matching Screenshot 3 Bottom) -->
+    <section id="location" class="content-container mt-12 mb-16" data-aos="fade-up">
+        <div class="w-full h-[500px] border border-white/10 rounded-[2rem] overflow-hidden opacity-80 hover:opacity-100 filter grayscale contrast-125 hover:grayscale-0 hover:contrast-100 hover:scale-[1.01] hover:shadow-[0_0_40px_rgba(59,130,246,0.3)] transition-all duration-700 relative z-10">
+            <iframe 
+                src="https://maps.google.com/maps?q=MMR%20complex,%20Chinna%20Thirupathi,%20near%20Chinna%20Muniyappan%20Kovil,%20Salem-636008&t=&z=15&ie=UTF8&iwloc=&output=embed" 
+                width="100%" 
+                height="100%" 
+                style="border:0;" 
+                allowfullscreen="" 
+                loading="lazy" 
+                referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+        </div>
+    </section>
+</main>
+
+<!-- AOS Animation Initialization -->
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+        AOS.init({
+            duration: 800,
+            once: false,
+            offset: 50,
+            easing: 'ease-out-cubic'
+        });
+    </script>
+<script src="script.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const faqItems = document.querySelectorAll('.faq-item');
+    faqItems.forEach(item => {
+        const question = item.querySelector('.faq-question');
+        if (question) {
+            question.addEventListener('click', () => {
+                const isCurrentlyActive = item.classList.contains('active');
+                
+                faqItems.forEach(otherItem => {
+                    otherItem.classList.remove('active');
+                    const otherAnswer = otherItem.querySelector('.faq-answer');
+                    if (otherAnswer) otherAnswer.style.maxHeight = null;
+                });
+
+                if (!isCurrentlyActive) {
+                    item.classList.add('active');
+                    const answer = item.querySelector('.faq-answer');
+                    if (answer) {
+                        answer.style.maxHeight = answer.scrollHeight + "px";
+                    }
+                }
+            });
+        }
+    });
+});
+</script>
+</body>
+
+<section class="faq-section">
+<h2 class="wipe-text faq-title">FAQ</h2>
+<div class="faq-list">
+<div class="faq-item">
+<div class="faq-question">
+<span>What types of businesses do you work with?</span>
+<span class="arrow">'</span>
+</div>
+<div class="faq-answer">
+<p>We work with businesses of all sizes, from growing startups to established enterprises, across various industries to optimize their procurement processes.</p>
+</div>
+</div>
+<div class="faq-item">
+<div class="faq-question">
+<span>Do you handle the entire procurement process?</span>
+<span class="arrow">'</span>
+</div>
+<div class="faq-answer">
+<p>Yes, we offer end-to-end source-to-pay operations, but we can also step in to manage specific stages depending on your business needs.</p>
+</div>
+</div>
+<div class="faq-item">
+<div class="faq-question">
+<span>Can you work with our existing suppliers?</span>
+<span class="arrow">'</span>
+</div>
+<div class="faq-answer">
+<p>Absolutely. We focus on building better supplier relationships, whether that means onboarding new vendors or strengthening ties with your current partners.</p>
+</div>
+</div>
+<div class="faq-item">
+<div class="faq-question">
+<span>Do you only focus on reducing costs?</span>
+<span class="arrow">'</span>
+</div>
+<div class="faq-answer">
+<p>No. While cost reduction is a key benefit, we also prioritize quality, compliance, supplier reliability, and long-term business value.</p>
+</div>
+</div>
+<div class="faq-item">
+<div class="faq-question">
+<span>Can you help us find new suppliers?</span>
+<span class="arrow">'</span>
+</div>
+<div class="faq-answer">
+<p>Yes, our strategic sourcing team identifies, evaluates, and selects top-tier suppliers based on quality, cost, and capability.</p>
+</div>
+</div>
+<div class="faq-item">
+<div class="faq-question">
+<span>Can you manage procurement for a growing company?</span>
+<span class="arrow">'</span>
+</div>
+<div class="faq-answer">
+<p>Definitely. Our processes are designed to scale, adapting as you grow to respond faster to new opportunities and demands.</p>
+</div>
+</div>
+</div>
+</section>
+  <!-- Footer -->
+  <footer class="border-t border-white/10 pt-8 pb-8 mt-12 relative z-10" id="contact" style="background: rgba(4, 7, 22, 0.6); backdrop-filter: blur(10px);">
+  <div class="w-full px-6" style="max-width: 1240px; margin: 0 auto; box-sizing: border-box;">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+<!-- COLUMN 1: LOGO -->
+<div data-aos="fade-up" data-aos-duration="800">
+<a class="footer-logo" href="index.html">
+<img alt="Stackly" src="logo.webp" style="height: 64px; width: auto;"/>
+</a>
+<p class="text-[13px] text-gray-400 leading-relaxed mb-6">Smarter procurement.<br/>Stronger businesses.</p>
+<div>
+<span class="block text-[12px] font-semibold tracking-widest text-gray-500 mb-4 uppercase">FOLLOW STACKLY</span>
+<div class="flex flex-wrap gap-3">
+<a class="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-gray-300 hover:bg-[#3B82F6] hover:border-[#3B82F6] hover:text-white hover:-translate-y-1 transition-all duration-300" href="404.html"><svg fill="currentColor" height="18" viewbox="0 0 24 24" width="18"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"></path></svg></a>
+<a class="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-gray-300 hover:bg-[#3B82F6] hover:border-[#3B82F6] hover:text-white hover:-translate-y-1 transition-all duration-300" href="404.html"><svg fill="currentColor" height="18" viewbox="0 0 24 24" width="18"><path d="M21.216 3h-3.322l-7.256 8.29-5.791-8.29h-8.847l9.638 13.793-7.638 8.717h3.322l7.669-8.761 6.134 8.761h8.875l-10.155-14.537 7.371-8.423zm-4.708 19.537h-2.188l-11.139-15.933h2.292l9.96 14.249h2.075l-10.999-15.733h-2.071l12.07 17.417z"></path></svg></a>
+<a class="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-gray-300 hover:bg-[#3B82F6] hover:border-[#3B82F6] hover:text-white hover:-translate-y-1 transition-all duration-300" href="404.html"><svg fill="currentColor" height="18" viewbox="0 0 24 24" width="18"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"></path></svg></a>
+<a class="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-gray-300 hover:bg-[#3B82F6] hover:border-[#3B82F6] hover:text-white hover:-translate-y-1 transition-all duration-300" href="404.html"><svg fill="currentColor" height="18" viewbox="0 0 24 24" width="18"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"></path></svg></a>
+<a class="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-gray-300 hover:bg-[#3B82F6] hover:border-[#3B82F6] hover:text-white hover:-translate-y-1 transition-all duration-300" href="404.html"><svg fill="currentColor" height="18" viewbox="0 0 24 24" width="18"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.5 12 3.5 12 3.5s-7.505 0-9.377.55a3.015 3.015 0 0 0-2.122 2.136C0 8.07 0 12 0 12s0 3.93.498 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.55 9.377.55 9.377.55s7.505 0 9.377-.55a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"></path></svg></a>
+</div>
+</div>
+</div>
+<!-- COLUMN 2: QUICK LINKS -->
+<div data-aos="fade-up" data-aos-delay="100" data-aos-duration="800">
+<h4 class="text-white font-semibold mb-6 tracking-wide text-[14px]">QUICK LINKS</h4>
+<ul class="flex flex-col gap-3 text-[13px] text-gray-400 list-none p-0 m-0">
+<li><a class="hover:text-white transition-colors" href="index.html">Home</a></li>
+<li><a class="hover:text-white transition-colors" href="about.html">About</a></li>
+<li><a class="hover:text-white transition-colors" href="404.html">Services</a></li>
+<li><a class="hover:text-white transition-colors" href="blog.html">Blog</a></li>
+<li><a class="hover:text-white transition-colors" href="contact.html">Contact</a></li>
+</ul>
+</div>
+<!-- COLUMN 3: SERVICES -->
+<div data-aos="fade-up" data-aos-delay="200" data-aos-duration="800">
+<h4 class="text-white font-semibold mb-6 tracking-wide text-[14px]">SERVICES</h4>
+<ul class="flex flex-col gap-3 text-[13px] text-gray-400 list-none p-0 m-0">
+<li><a class="hover:text-white transition-colors" href="404.html">Strategic Sourcing</a></li>
+<li><a class="hover:text-white transition-colors" href="404.html">Spend Management</a></li>
+<li><a class="hover:text-white transition-colors" href="404.html">Contract Management</a></li>
+<li><a class="hover:text-white transition-colors" href="404.html">Source-to-Pay</a></li>
+</ul>
+</div>
+<!-- COLUMN 4: GET IN TOUCH -->
+<div data-aos="fade-up" data-aos-delay="300" data-aos-duration="800">
+<h4 class="text-white font-semibold mb-6 tracking-wide text-[14px]">GET IN TOUCH</h4>
+<ul class="flex flex-col gap-3 text-[13px] text-gray-400 list-none p-0 m-0">
+<li>+91 90909 09090</li>
+<li>info@stackly.com</li>
+<li class="leading-relaxed">MMR Complex, Chinna Thirupathi,<br/>Near by Chinna Moniyappan Kovil,<br/>Salem 636008.</li>
+</ul>
+</div>
+</div>
+<!-- DIVIDER -->
+<hr class="border-white/10 m-0"/>
+<!-- BOTTOM COPYRIGHT -->
+<div class="flex flex-row justify-between items-center gap-4 pt-6" data-aos="fade-up" data-aos-delay="400" data-aos-duration="800">
+<p class="text-[14px] text-gray-500 m-0">Copyright &copy; 2026 Stackly <span style="margin: 0 12px; color: rgba(255,255,255,0.3);">|</span> Designed by Brandly</p>
+<div class="flex gap-6">
+<a class="text-[14px] text-gray-500 hover:text-[#3B82F6] transition-colors" href="404.html">Privacy Policies</a>
+<a class="text-[14px] text-gray-500 hover:text-[#3B82F6] transition-colors" href="404.html">Terms &amp; Condition</a>
+</div>
+</div>
+</div>
+</footer>
+</html>
+
+
+
+
+
+

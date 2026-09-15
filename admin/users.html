@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Users - Stackly</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body { background-color: #060A20; color: #ffffff; font-family: 'Inter', sans-serif; margin: 0; display: flex; height: 100vh; overflow: hidden; }
+        .sidebar { width: 250px; background-color: #020512; border-right: 1px solid rgba(255,255,255,0.05); display: flex; flex-direction: column; padding: 20px; transition: all 0.3s; z-index: 10; }
+        .content { flex: 1; padding: 30px; overflow-y: auto; scroll-behavior: smooth; position: relative; }
+        .nav-link { padding: 12px 16px; color: rgba(255,255,255,0.6); text-decoration: none; border-radius: 8px; margin-bottom: 8px; transition: 0.3s; display: flex; align-items: center; font-weight: 500; }
+        .nav-link:hover, .nav-link.active { background: rgba(59,130,246,0.1); color: #fff; transform: translateX(8px); }
+        .card { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); border-radius: 16px; padding: 24px; margin-bottom: 24px; transition: transform 0.3s, box-shadow 0.3s; backdrop-filter: blur(10px); }
+        .card:hover { transform: translateY(-4px); box-shadow: 0 12px 24px rgba(0,0,0,0.3); border-color: rgba(59,130,246,0.3); }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #020512; }
+        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #3B82F6; }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h2 class="text-2xl font-bold text-blue-500 mb-8"><i class="fa fa-layer-group mr-2"></i>Admin</h2>
+        <div class="nav-container">
+            <a href="index.html" class="nav-link "><i class="fa fa-chart-pie w-6"></i> Admin Dashboard</a>
+<a href="users.html" class="nav-link active border-l-4 border-blue-500 bg-blue-600/10 text-white"><i class="fa fa-users w-6"></i> Manage Users</a>
+<a href="procurement.html" class="nav-link "><i class="fa fa-box-open w-6"></i> Procurement Hub</a>
+<a href="reports.html" class="nav-link "><i class="fa fa-file-invoice-dollar w-6"></i> Financial Reports</a>
+<a href="settings.html" class="nav-link "><i class="fa fa-cogs w-6"></i> System Settings</a>
+
+        </div>
+        <div style="flex: 1;"></div>
+        <a href="../login.html" class="nav-link text-red-400 hover:text-red-300 hover:bg-red-900/20"><i class="fa fa-sign-out-alt mr-2"></i> Logout</a>
+    </div>
+    <div class="content">
+        <div class="flex justify-between items-center mb-8">
+            <h1 class="text-3xl font-bold">Manage Users</h1>
+            <div class="flex items-center gap-4">
+                <button class="bg-gray-800 p-2 rounded-full hover:bg-gray-700 transition"><i class="fa fa-bell"></i></button>
+                <div class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center font-bold">JD</div>
+            </div>
+        </div>
+        
+                <div class="card"><h3 class="text-xl font-semibold mb-6">User Directory</h3>
+                <table class="w-full text-left"><thead><tr class="text-gray-400 border-b border-gray-800"><th class="pb-3">Name</th><th class="pb-3">Role</th><th class="pb-3">Status</th></tr></thead>
+                <tbody><tr class="border-b border-gray-800/50"><td class="py-4">Alice</td><td>Admin</td><td><span class="bg-green-900 text-green-300 px-2 py-1 rounded text-xs">Active</span></td></tr></tbody></table></div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6"><div class="card"><h3 class="text-xl font-semibold mb-4">User Growth</h3><canvas id="growthChart" height="150"></canvas></div>
+                <div class="card"><h3 class="text-xl font-semibold mb-4">Role Dist</h3><canvas id="roleChart" height="150"></canvas></div></div>
+            
+    
+<div class="w-full mt-auto opacity-60 flex flex-col md:flex-row items-center justify-between text-xs text-gray-500 pb-4 pt-6 border-t border-white/10 px-2 gap-4">
+            <div>Stackly Procurement Dashboard &copy; 2026. All rights reserved.</div>
+            <div class="flex gap-6">
+                <a href="#" class="hover:text-white transition-colors">Privacy Policy</a>
+                <a href="#" class="hover:text-white transition-colors">Terms of Service</a>
+                <a href="#" class="hover:text-white transition-colors">Help Center</a>
+                <a href="#" class="hover:text-white transition-colors">Contact Support</a>
+            </div>
+        </div>
+    </div>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 700, once: true });
+        Chart.defaults.color = 'rgba(255,255,255,0.6)';
+        Chart.defaults.borderColor = 'rgba(255,255,255,0.05)';
+        new Chart(document.getElementById('growthChart'), { type: 'bar', data: { labels: ['Q1', 'Q2', 'Q3'], datasets: [{ label: 'New Users', data: [150, 230, 180], backgroundColor: '#8B5CF6' }] } }); new Chart(document.getElementById('roleChart'), { type: 'doughnut', data: { labels: ['Admin', 'User'], datasets: [{ data: [10, 90], backgroundColor: ['#EF4444', '#3B82F6'] }] } });
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suppliers - Stackly Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body { background-color: #0b1120; color: #f8fafc; font-family: 'Inter', sans-serif; display: flex; height: 100vh; overflow: hidden; margin: 0; }
+        .sidebar { width: 260px; background-color: #020617; border-right: 1px solid rgba(255,255,255,0.05); display: flex; flex-direction: column; padding: 24px 16px; overflow-y: auto; z-index: 50; transition: transform 0.3s ease; }
+        .content { flex: 1; padding: 0px 40px 32px 40px; overflow-y: auto; scroll-behavior: smooth; position: relative; width: 100%;  }
+        .nav-section { color: #64748b; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.05em; margin: 24px 0 8px 12px; text-transform: uppercase; }
+        .nav-link { padding: 10px 12px; color: #94a3b8; text-decoration: none; border-radius: 8px; margin-bottom: 4px; transition: 0.2s; display: flex; align-items: center; font-size: 0.875rem; font-weight: 500; }
+        .nav-link i { width: 24px; font-size: 1.1rem; }
+        .nav-link:hover { color: #e2e8f0; background: rgba(255,255,255,0.03); }
+        .nav-link.active { background: #0f172a; color: #3b82f6; position: relative; }
+        .nav-link.active::before { content: ''; position: absolute; left: -16px; top: 10%; height: 80%; width: 4px; background: #3b82f6; border-radius: 0 4px 4px 0; }
+        .card { background: #0f172a; border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; padding: 24px; margin-bottom: 24px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); transition: transform 0.3s; width: 100%;  }
+        .card:hover { transform: translateY(-2px); }
+        .kpi-title { font-size: 0.75rem; font-weight: 600; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; display: flex; justify-content: space-between; align-items: center; }
+        .kpi-value { font-size: 1.875rem; font-weight: 700; color: #f8fafc; margin: 8px 0; word-break: break-all; }
+        .kpi-trend { font-size: 0.75rem; font-weight: 500; }
+        .trend-up { color: #10b981; }
+        .trend-down { color: #ef4444; }
+        .table-responsive { width: 100%; overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; min-width: 500px; }
+        th { text-align: left; padding: 12px; font-size: 0.75rem; text-transform: uppercase; color: #64748b; font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        td { padding: 16px 12px; font-size: 0.875rem; color: #cbd5e1; border-bottom: 1px solid rgba(255,255,255,0.02); }
+        .badge { padding: 4px 8px; border-radius: 9999px; font-size: 0.7rem; font-weight: 600; display: inline-flex; align-items: center; justify-content: center; white-space: nowrap; }
+        .badge-green { background: rgba(16, 185, 129, 0.1); color: #34d399; }
+        .badge-yellow { background: rgba(245, 158, 11, 0.1); color: #fbbf24; }
+        .badge-blue { background: rgba(59, 130, 246, 0.1); color: #60a5fa; }
+        .badge-red { background: rgba(239, 68, 68, 0.1); color: #f87171; }
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #020617; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
+        .menu-toggle { display: none; background: none; border: none; color: #fff; font-size: 1.5rem; cursor: pointer; padding: 8px; }
+        .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 40; opacity: 0; transition: opacity 0.3s; pointer-events: none; }
+        @media (max-width: 900px) {
+            body { display: block; height: auto; overflow: visible; }
+            .sidebar { position: fixed; top: 0; left: 0; bottom: 0; height: 100dvh; transform: translateX(-100%); box-shadow: 4px 0 15px rgba(0,0,0,0.5); width: 280px; z-index: 50; }
+            .sidebar.open { transform: translateX(0); }
+            .sidebar-overlay.show { display: block; opacity: 1; pointer-events: all; }
+            .content { padding: 20px 16px; width: 100%; overflow: visible; }
+            .menu-toggle { display: block; }
+            .header-flex { flex-direction: column; align-items: flex-start !important; gap: 16px; }
+            .header-actions { width: 100%; justify-content: space-between; }
+        }
+            .sidebar.open { transform: translateX(0); }
+            .sidebar-overlay.show { display: block; opacity: 1; pointer-events: all; }
+            .content { padding: 20px 16px; width: 100%; }
+            .menu-toggle { display: block; }
+            .header-flex { flex-direction: column; align-items: flex-start !important; gap: 16px; }
+            .header-actions { width: 100%; justify-content: space-between; }
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar-overlay" onclick="document.querySelector('.sidebar').classList.remove('open'); document.querySelector('.sidebar-overlay').classList.remove('show');"></div>
+    <div class="sidebar">
+        <div class="px-3">
+            <a href="index.html"><img src="../logo.webp" alt="Stackly" style="height: 75px; width: auto;" /></a>
+        </div>
+        
+        <div class="mt-4 mb-6 px-3 text-xs font-bold text-blue-500 uppercase tracking-widest bg-blue-900/10 py-2 rounded mx-2 text-center border border-blue-500/20 shadow-sm">
+        Admin Dashboard
+    </div>
+        
+        <div>
+            <div class="nav-section">Overview</div>
+            <a href="index.html" class="nav-link "><i class="fa fa-th-large"></i> Procurement Overview</a>
+
+            
+            <div class="nav-section">Operations</div>
+            <a href="purchase_orders.html" class="nav-link "><i class="fa fa-file-invoice"></i> Purchase Orders</a>
+<a href="suppliers.html" class="nav-link active"><i class="fa fa-users"></i> Suppliers</a>
+<a href="contracts.html" class="nav-link "><i class="fa fa-file-signature"></i> Contracts</a>
+<a href="reports.html" class="nav-link "><i class="fa fa-chart-line"></i> Spend Analysis</a>
+
+        </div>
+        
+        <div style="flex: 1;"></div>
+        
+        <div>
+            <div class="nav-section">System</div>
+            <a href="settings.html" class="nav-link "><i class="fa fa-cog"></i> Settings</a>
+            <a href="../login.html" class="nav-link text-red-400 hover:text-red-300 hover:bg-red-900/10"><i class="fa fa-sign-out-alt"></i> Logout</a>
+        </div>
+    </div>
+    <div class="content flex flex-col min-h-full">
+        <!-- Sticky Header Wrapper -->
+    <div class="sticky top-0 z-40 bg-[#0b1120]/95 backdrop-blur-md  -mx-4 md:-mx-10 px-4 md:px-10 pt-5 md:pt-8 pb-4 mb-6 md:mb-8 border-b border-white/5 shadow-xl">
+        <div class="flex justify-between items-center mb-4 md:hidden">
+            <a href="index.html"><img src="../logo.webp" alt="Stackly" style="height: 65px; width: auto;" /></a>
+            <button class="menu-toggle" onclick="document.querySelector('.sidebar').classList.add('open'); document.querySelector('.sidebar-overlay').classList.add('show');"><i class="fa fa-bars text-xl"></i></button>
+        </div>
+        
+        <!-- Mobile Title Only -->
+        <div class="md:hidden">
+            <h1 class="text-2xl font-bold mb-1">Suppliers</h1>
+            <p class="text-sm text-gray-400">Monitor supplier health, compliance, and performance metrics.</p>
+        </div>
+
+        <!-- Desktop Header -->
+        <div class="hidden md:flex justify-between items-center">
+            <div>
+                <h1 class="text-2xl font-bold mb-1">Suppliers</h1>
+                <p class="text-sm text-gray-400">Monitor supplier health, compliance, and performance metrics.</p>
+            </div>
+            
+            <div class="flex items-center gap-6">
+                <!-- Search -->
+                <div class="relative hidden lg:block">
+                    <input type="text" placeholder="Search..." onkeypress="if(event.key === 'Enter') window.location.href='../404.html'" class="bg-[#020617] border border-white/10 text-sm text-white rounded-full pl-10 pr-4 py-2 focus:outline-none focus:border-blue-500 w-64 transition-all">
+                    <i class="fa fa-search absolute left-4 top-2.5 text-gray-500"></i>
+                </div>
+                
+                <!-- Notification -->
+                <button onclick="window.location.href='../404.html'" class="relative text-gray-400 hover:text-white transition">
+                    <i class="fa fa-bell text-xl"></i>
+                    <span class="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center border-2 border-[#0b1120]">3</span>
+                </button>
+                
+                <!-- Profile -->
+                <div class="relative group">
+                <div class="flex items-center gap-3 pl-6 border-l border-white/10 cursor-pointer hover:opacity-80 transition" onclick="this.nextElementSibling.classList.toggle('hidden')">
+                    <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-blue-600 to-blue-400 flex items-center justify-center text-white font-bold text-sm shadow-lg shadow-blue-500/20" id="user-avatar">AD</div>
+                    <div class="hidden md:block">
+                        <div class="text-sm font-bold text-white" id="user-name">Admin User</div>
+                        <div class="text-xs text-gray-400" id="user-email">admin@stackly.com</div>
+                    </div>
+                    <i class="fa fa-chevron-down text-gray-500 text-xs"></i>
+                </div>
+                <div class="absolute right-0 mt-4 w-48 bg-[#0f172a] border border-white/10 rounded-lg shadow-xl py-2 hidden z-50">
+                    <button onclick="window.location.href=\'../login.html\'" class="w-full text-left px-4 py-2 text-sm text-red-400 hover:bg-red-500/10 transition flex items-center gap-2"><i class="fa fa-sign-out-alt"></i> Logout</button>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+        
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                <div class="card !mb-0"><div class="kpi-title">Active Suppliers</div><p class="kpi-value">342</p></div>
+                <div class="card !mb-0"><div class="kpi-title">Compliance Score</div><p class="kpi-value">94%</p></div>
+                <div class="card !mb-0"><div class="kpi-title">High Risk</div><p class="kpi-value text-red-400">8</p></div>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+                <div class="card !mb-0"><h3 class="text-sm font-bold text-white mb-4">Supplier Risk Distribution</h3><canvas id="riskChart" height="200"></canvas></div>
+                <div class="card !mb-0 flex flex-col"><h3 class="text-sm font-bold text-white mb-4">Recent Onboardings</h3>
+                    <div class="space-y-3 flex-1 mb-4">
+                        <div class="p-3 bg-gray-900/50 rounded flex justify-between items-center"><span class="font-medium text-sm">Zenith Systems</span><span class="badge badge-green">Completed</span></div>
+                        <div class="p-3 bg-gray-900/50 rounded flex justify-between items-center"><span class="font-medium text-sm">Prime Logistics</span><span class="badge badge-yellow">In Progress</span></div>
+                        <div class="p-3 bg-gray-900/50 rounded flex justify-between items-center"><span class="font-medium text-sm">Nexus Consulting</span><span class="badge badge-yellow">In Progress</span></div>
+                        <div class="p-3 bg-gray-900/50 rounded flex justify-between items-center"><span class="font-medium text-sm">Alpha Components</span><span class="badge badge-green">Completed</span></div>
+                    </div>
+                    <button onclick="window.location.href='../404.html'" class="w-full bg-blue-600 hover:bg-blue-500 py-2 rounded text-sm transition font-medium">Onboard New Supplier</button>
+                </div>
+            </div>
+            <div class="card !mb-0 mb-6"><h3 class="text-sm font-bold text-white mb-4">Top Performing Suppliers</h3><div class="table-responsive"><table><thead><tr><th>Supplier Name</th><th>Category</th><th>Spend (YTD)</th><th>Rating</th><th>Profile</th></tr></thead><tbody><tr><td class="font-medium text-white">TechCorp Solutions</td><td>IT Hardware</td><td>$1.2M</td><td><span class="text-green-400">98/100</span></td><td><button onclick="window.location.href='../404.html'" class="bg-gray-800 hover:bg-gray-700 px-3 py-1 rounded text-xs transition">View</button></td></tr><tr><td class="font-medium text-white">Apex Cloud Services</td><td>Software / SaaS</td><td>$850K</td><td><span class="text-green-400">95/100</span></td><td><button onclick="window.location.href='../404.html'" class="bg-gray-800 hover:bg-gray-700 px-3 py-1 rounded text-xs transition">View</button></td></tr><tr><td class="font-medium text-white">Global Office Supplies</td><td>Facilities</td><td>$340K</td><td><span class="text-yellow-400">88/100</span></td><td><button onclick="window.location.href='../404.html'" class="bg-gray-800 hover:bg-gray-700 px-3 py-1 rounded text-xs transition">View</button></td></tr></tbody></table></div></div>
+            <div class="card !mb-0"><h3 class="text-sm font-bold text-white mb-4">Supplier Diversity Metrics</h3><div class="grid grid-cols-2 md:grid-cols-4 gap-4"><div class="p-3 bg-gray-900/50 rounded border border-gray-800"><p class="text-xs text-gray-400">Local Suppliers</p><p class="text-lg font-bold mt-1">45%</p></div><div class="p-3 bg-gray-900/50 rounded border border-gray-800"><p class="text-xs text-gray-400">Minority-Owned</p><p class="text-lg font-bold mt-1">18%</p></div><div class="p-3 bg-gray-900/50 rounded border border-gray-800"><p class="text-xs text-gray-400">Eco-Certified</p><p class="text-lg font-bold mt-1">32%</p></div><div class="p-3 bg-gray-900/50 rounded border border-gray-800"><p class="text-xs text-gray-400">Women-Owned</p><p class="text-lg font-bold mt-1">12%</p></div></div><div class="mt-4 text-right"><button onclick="window.location.href='../404.html'" class="bg-gray-800 hover:bg-gray-700 px-4 py-2 rounded text-sm transition">Generate Diversity Report</button></div></div>
+
+        <!-- Detailed Activity Log -->
+        <div class="card mb-6">
+            <h3 class="text-sm font-bold text-white mb-4">Recent System Activity</h3>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Transaction ID</th>
+                            <th>User</th>
+                            <th>Action</th>
+                            <th>Date & Time</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td class="font-medium text-blue-400">TXN-90231</td><td>Admin User</td><td>Updated contract terms for Supplier A</td><td>Today, 10:45 AM</td><td><span class="badge badge-green">Completed</span></td></tr>
+                        <tr><td class="font-medium text-blue-400">TXN-90230</td><td>System</td><td>Automated compliance check</td><td>Today, 09:00 AM</td><td><span class="badge badge-green">Passed</span></td></tr>
+                        <tr><td class="font-medium text-blue-400">TXN-90229</td><td>John Doe</td><td>Approved PO #4402</td><td>Yesterday, 16:30 PM</td><td><span class="badge badge-blue">Reviewed</span></td></tr>
+                        <tr><td class="font-medium text-blue-400">TXN-90228</td><td>Jane Smith</td><td>Requested budget increase</td><td>Yesterday, 14:15 PM</td><td><span class="badge badge-yellow">Pending</span></td></tr>
+                        <tr><td class="font-medium text-blue-400">TXN-90227</td><td>Admin User</td><td>Generated Q3 Spend Report</td><td>Yesterday, 11:00 AM</td><td><span class="badge badge-green">Completed</span></td></tr>
+                        <tr><td class="font-medium text-blue-400">TXN-90226</td><td>System</td><td>Flagged unusual spend pattern</td><td>Oct 12, 08:30 AM</td><td><span class="badge badge-red">Alert</span></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Quick Actions & Related Content -->
+        <div class="mb-6">
+            <h2 class="text-lg font-bold text-white mb-4">Quick Actions</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="card !mb-0 flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-md font-semibold text-white mb-2"><i class="fa fa-file-alt text-blue-500 mr-2"></i> Generate Custom Report</h3>
+                        <p class="text-sm text-gray-400 mb-4">Create a detailed export of current records and metrics for offline analysis.</p>
+                    </div>
+                    <button onclick="window.location.href='../404.html'" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-medium py-2 px-4 rounded transition-colors text-sm">Create Report</button>
+                </div>
+                <div class="card !mb-0 flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-md font-semibold text-white mb-2"><i class="fa fa-cog text-blue-500 mr-2"></i> Configure Module</h3>
+                        <p class="text-sm text-gray-400 mb-4">Adjust the default parameters, alerts, and views for this specific module.</p>
+                    </div>
+                    <button onclick="window.location.href='../404.html'" class="w-full bg-gray-700 hover:bg-gray-600 text-white font-medium py-2 px-4 rounded transition-colors text-sm">Module Settings</button>
+                </div>
+                <div class="card !mb-0 flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-md font-semibold text-white mb-2"><i class="fa fa-life-ring text-blue-500 mr-2"></i> Get Assistance</h3>
+                        <p class="text-sm text-gray-400 mb-4">Need help understanding these metrics? Contact our support team for a walkthrough.</p>
+                    </div>
+                    <button onclick="window.location.href='../404.html'" class="w-full bg-transparent border border-white/20 hover:border-white/50 text-white font-medium py-2 px-4 rounded transition-colors text-sm">Contact Support</button>
+                </div>
+            </div>
+        </div>
+
+<div class="w-full  opacity-60 flex flex-col md:flex-row items-center justify-between text-xs text-gray-500 pb-4 pt-6 border-t border-white/10 px-2 gap-4">
+            <div>Stackly Procurement Dashboard &copy; 2026. All rights reserved.</div>
+            <div class="flex gap-6">
+                <a href="#" class="hover:text-white transition-colors">Privacy Policy</a>
+                <a href="#" class="hover:text-white transition-colors">Terms of Service</a>
+                <a href="#" class="hover:text-white transition-colors">Help Center</a>
+                <a href="#" class="hover:text-white transition-colors">Contact Support</a>
+            </div>
+        </div>
+    </div>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 600, once: true, offset: 50 });
+        Chart.defaults.color = '#94a3b8';
+        Chart.defaults.borderColor = 'rgba(255,255,255,0.05)';
+        Chart.defaults.font.family = 'Inter';
+        
+        const email = localStorage.getItem("stackly_user_email");
+          if (email) {
+              const namePart = email.split('@')[0];
+              let displayName = namePart.charAt(0).toUpperCase() + namePart.slice(1);
+              displayName = displayName.replace(/\./g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+              if(document.getElementById('user-name')) document.getElementById('user-name').innerText = displayName;
+              if(document.getElementById('user-email')) document.getElementById('user-email').innerText = email;
+              let initials = displayName.substring(0, 2);
+              const nameSplit = displayName.split(' ');
+              if (nameSplit.length > 1) { initials = nameSplit[0].charAt(0) + nameSplit[1].charAt(0); }
+              if(document.getElementById('user-avatar')) document.getElementById('user-avatar').innerText = initials;
+          }
+          
+          new Chart(document.getElementById('riskChart'), { type: 'pie', data: { labels: ['Low Risk', 'Medium Risk', 'High Risk'], datasets: [{ data: [250, 84, 8], backgroundColor: ['#10B981', '#F59E0B', '#EF4444'], borderWidth: 0 }] } });
+    </script>
+</body>
+</html>

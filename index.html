@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Stackly - Procurement Services</title>
+<link href="styles.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script>tailwind.config = { corePlugins: { preflight: false } }</script>
+</head>
+<body>
+<!-- TOP SCROLL PROGRESS -->
+<div id="top-scroll-progress" style="position: fixed; top: 0; left: 0; height: 3px; background: #3B82F6; z-index: 9999999; width: 0%; box-shadow: 0 0 10px rgba(59,130,246,0.8); transition: width 0.1s linear;"></div>
+<!-- CONTENT PRELOADER -->
+<div class="preloader" id="preloader">
+<div class="preloader-bg-particles"></div>
+<div class="preloader-content">
+<div class="preloader-logo-wrapper">
+<img alt="Stackly" class="preloader-logo" src="logo.webp"/>
+</div>
+<div class="preloader-animation">
+<div class="pl-nodes-container">
+<div class="pl-node pl-node-1">
+<div class="pl-icon-circle"><i class="fa-solid fa-magnifying-glass"></i></div>
+<div class="pl-node-text">SOURCE</div>
+</div>
+<div class="pl-line pl-line-1"></div>
+<div class="pl-node pl-node-2">
+<div class="pl-icon-circle"><i class="fa-solid fa-truck"></i></div>
+<div class="pl-node-text">SUPPLIER</div>
+</div>
+<div class="pl-line pl-line-2"></div>
+<div class="pl-node pl-node-3">
+<div class="pl-icon-circle"><i class="fa-solid fa-file-signature"></i></div>
+<div class="pl-node-text">CONTRACT</div>
+</div>
+<div class="pl-line pl-line-3"></div>
+<div class="pl-node pl-node-4">
+<div class="pl-icon-circle pl-icon-accent"><i class="fa-solid fa-check-double"></i></div>
+<div class="pl-node-text pl-node-text-accent">PROCURE</div>
+</div>
+</div>
+</div>
+<div class="preloader-text-area">
+<h3 class="pl-heading">Procurement, built around your business</h3>
+<div class="pl-message-container">
+<span class="pl-message active">Strategic sourcing...</span>
+<span class="pl-message">Connecting suppliers...</span>
+<span class="pl-message">Optimizing procurement...</span>
+<span class="pl-message">Managing contracts...</span>
+<span class="pl-message">Building better business outcomes...</span>
+</div>
+</div>
+<div class="preloader-progress-area">
+<div class="pl-progress-label">Loading</div>
+<div class="pl-progress-bar">
+<div class="pl-progress-fill" id="pl-progress-fill"></div>
+</div>
+<div class="pl-progress-percent" id="pl-progress-percent">0%</div>
+</div>
+</div>
+</div>
+<div class="page-container" id="page-container">
+<!-- Hero Section -->
+<section class="hero-section" id="hero">
+<!-- Subtle background motion effect -->
+<div class="hero-bg-anim">
+  <div class="glow-orb orb-1"></div>
+  <div class="glow-orb orb-2"></div>
+<div class="hero-glow"></div>
+<div class="hero-particle p1"></div>
+<div class="hero-particle p2"></div>
+<div class="hero-particle p3"></div>
+</div>
+<header class="navbar" id="navbar">
+<div class="nav-inner">
+<a class="logo" href="index.html">
+<img alt="Stackly" src="logo.webp" style="height: 64px; width: auto;"/>
+</a>
+<div class="nav-menu-wrapper" id="nav-menu-wrapper">
+<nav class="nav-links">
+<a class="nav-link active" href="index.html">Home</a>
+<a class="nav-link" href="about.html">About</a>
+<a class="nav-link" href="services.html">Services</a>
+<a class="nav-link" href="blog.html">Blog</a>
+<a class="nav-link" href="contact.html">Contact</a>
+</nav>
+<div class="nav-auth">
+  <a class="login-btn" href="login.html">Log in</a>
+  <a class="btn-primary" href="signup.html">Get Started</a>
+  </div>
+</div>
+<button aria-label="Toggle navigation" class="hamburger-btn" id="hamburger-btn">
+<span></span>
+<span></span>
+<span></span>
+</button>
+</div>
+</header>
+<div class="hero-content">
+  <div class="hero-text-content">
+  <h1 class="anim-headline" style="margin-bottom: 24px;">
+    Procurement, built around <span class="animated-gradient-text">your business</span>
+</h1>
+  <div class="hero-passage-mask"><p class="anim-paragraph">We help growing businesses source smarter, control spend, strengthen supplier relationships and simplify procurement from sourcing to payment. With strategic expertise, market intelligence, and streamlined processes, we make every purchasing decision more efficient and more valuable.</p></div>
+  <div class="anim-cta" style="display: flex; gap: 24px; align-items: center; flex-wrap: wrap; margin-top: 20px;">
+        <a class="btn-primary cta-primary-btn" href="services.html" style="padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 16px;">
+            <span class="btn-text">Explore services</span>
+        </a>
+        <a class="see-how-link" href="about.html" style="font-size: 16px;">
+            See how we deliver
+        </a>
+    </div>
+  
+  <div class="trust-indicators anim-fade-up">
+      <div class="avatars-group">
+          <img src="images/avatar-1.webp" class="trust-avatar" alt="User 1" />
+          <img src="images/avatar-2.webp" class="trust-avatar" alt="User 2" />
+          <img src="images/avatar-3.webp" class="trust-avatar" alt="User 3" />
+      </div>
+      <div class="trust-text">
+          <div class="trust-stars text-yellow-400 text-sm">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <span class="text-xs text-gray-400 font-medium">Trusted by 500+ procurement leaders</span>
+      </div>
+  </div>
+  
+  </div>
+  <div class="hero-visual-content">
+      <div class="hero-image-wrapper img-reveal-anim" id="parallax-img">
+          <!-- Image Reveal overlay -->
+          <div class="reveal-overlay"></div>
+          <!-- Floating elements -->
+          <div class="floating-element float-box"><i class="fa fa-box-open"></i></div>
+          <div class="floating-element float-chart"><i class="fa fa-chart-line"></i></div>
+          <div class="floating-element float-gear"><i class="fa fa-cog"></i></div>
+          
+          <img alt="Procurement Visual" class="hero-img" src="images/hero.webp"/>
+      </div>
+  </div>
+  </div>
+  
+  <a href="#about" class="scroll-indicator">
+      <div class="scroll-mouse">
+          <div class="scroll-wheel"></div>
+      </div>
+  </a>
+<div class="hero-bottom-bar" id="hero-bottom-bar">
+<span class="service-keyword">Strategic sourcing</span> <span class="separator"></span>
+<span class="service-keyword">Supplier management</span> <span class="separator"></span>
+<span class="service-keyword">Spend optimization</span> <span class="separator"></span>
+<span class="service-keyword">Source-to-pay</span>
+</div>
+</section>
+<!-- Section 2: Procurement That Does More -->
+<section class="more-than-money-section" id="about">
+<div class="glow-bg-radial"></div>
+<div class="content-wrapper">
+<div class="text-left-block">
+<h2 class="wipe-text">Procurement That Does <br class="hidden md:block"/> More Than Save Money</h2>
+<p class="sec-anim-desc">We move beyond basic cost-cutting. By combining strategic expertise, supplier intelligence, and disciplined spend analysis, we help organizations make confident purchasing decisions that drive measurable, long-term business impact.</p>
+<div class="stats-row sec-anim-desc">
+<div class="stat-item">
+<div class="stat-ring-wrapper">
+<svg class="stat-svg" viewbox="0 0 120 120">
+<circle class="ring-bg" cx="60" cy="60" r="54"></circle>
+<circle class="ring-progress ring-360" cx="60" cy="60" r="54"></circle>
+</svg>
+<div class="stat-num-content">
+<span class="stat-counter" data-target="360">0</span><span class="stat-suffix">&deg;</span></div></div><span class="stat-text">Spend Visibility</span>
+</div>
+<div class="stat-item">
+<div class="stat-ring-wrapper">
+<svg class="stat-svg" viewbox="0 0 120 120">
+<circle class="ring-bg" cx="60" cy="60" r="54"></circle>
+<circle class="ring-progress ring-100" cx="60" cy="60" r="54"></circle>
+</svg>
+<div class="stat-num-content">
+<span class="stat-counter" data-target="100">0</span><span class="stat-suffix">%</span>
+</div>
+</div>
+<span class="stat-text">Value Alignment</span>
+</div>
+</div>
+</div>
+<div class="image-right-block sec-anim-image">
+<div class="image-mask">
+<img alt="Strategic Procurement" class="procurement-img" id="parallax-img-2" src="images/strategic-spend.webp"/>
+<div class="image-overlay"></div>
+</div>
+<!-- Floating storytelling cards -->
+<div class="floating-card fc-1"><i class="fa fa-check text-blue-500 mr-2"></i>Strategic sourcing</div>
+<div class="floating-card fc-2"><i class="fa fa-check text-blue-500 mr-2"></i>Supplier intelligence</div>
+<div class="floating-card fc-3"><i class="fa fa-check text-blue-500 mr-2"></i>Spend visibility</div>
+<div class="floating-card fc-4"><i class="fa fa-check text-blue-500 mr-2"></i>Cost optimization</div>
+</div>
+</div>
+</section>
+<!-- Section 3: Everything You Need to Procure Better -->
+<section class="everything-you-need-section" id="services">
+<h2 class="wipe-text section-title">Everything You Need to Procure Better</h2>
+<div class="features-diagram">
+<div class="glow-bg-2"></div>
+<div class="center-hub" id="center-hub">
+<div class="hub-ripple r1"></div>
+<div class="hub-ripple r2"></div>
+<div class="hub-ripple r3"></div>
+<div class="center-building-img">
+<img alt="Procurement Hub" src="images/procurement-hub.webp"/>
+</div>
+</div>
+<!-- Left Features -->
+<div class="feature-item feature-tl" data-index="1">
+<h3>Strategic Sourcing</h3>
+<p>Identify, evaluate, and select suppliers based on quality, cost, capability, and long-term fit.</p>
+</div>
+<div class="feature-item feature-ml" data-index="2">
+<h3>Spend Analysis</h3>
+<p>Turn purchasing data into clear insights that reveal unnecessary costs and savings opportunities.</p>
+</div>
+<div class="feature-item feature-bl" data-index="3">
+<h3>Supplier Management</h3>
+<p>Bring structure to every stage, making procurement easier for your teams to manage.</p>
+</div>
+<!-- Right Features -->
+<div class="feature-item feature-tr" data-index="4">
+<h3>Contract Management</h3>
+<p>Support better agreements through structured negotiation and ongoing compliance monitoring.</p>
+</div>
+<div class="feature-item feature-mr" data-index="5">
+<h3>Source-to-Pay Operations</h3>
+<p>Connect sourcing, purchasing, invoices, and payments into a smoother end-to-end process.</p>
+</div>
+<div class="feature-item feature-br" data-index="6">
+<h3>Category Management</h3>
+<p>Develop focused strategies for different spending categories to improve value and consistency.</p>
+</div>
+<!-- SVG Lines for connection -->
+<svg class="connecting-lines" preserveaspectratio="xMidYMid meet" viewbox="0 0 1000 600">
+<defs>
+<marker id="arrowhead" markerheight="6" markerwidth="6" orient="auto" refx="5" refy="3">
+<polygon fill="#60a5fa" points="0 0, 6 3, 0 6"></polygon>
+</marker>
+</defs>
+<!-- Left paths -->
+<path class="conn-path path-1" d="M 500 300 L 400 300 L 280 120" fill="none" marker-end="url(#arrowhead)" stroke="rgba(96, 165, 250, 0.4)" stroke-width="2"></path>
+<path class="conn-path path-2" d="M 500 300 L 280 300" fill="none" marker-end="url(#arrowhead)" stroke="rgba(96, 165, 250, 0.4)" stroke-width="2"></path>
+<path class="conn-path path-3" d="M 500 300 L 400 300 L 280 480" fill="none" marker-end="url(#arrowhead)" stroke="rgba(96, 165, 250, 0.4)" stroke-width="2"></path>
+<!-- Right paths -->
+<path class="conn-path path-4" d="M 500 300 L 600 300 L 720 120" fill="none" marker-end="url(#arrowhead)" stroke="rgba(96, 165, 250, 0.4)" stroke-width="2"></path>
+<path class="conn-path path-5" d="M 500 300 L 720 300" fill="none" marker-end="url(#arrowhead)" stroke="rgba(96, 165, 250, 0.4)" stroke-width="2"></path>
+<path class="conn-path path-6" d="M 500 300 L 600 300 L 720 480" fill="none" marker-end="url(#arrowhead)" stroke="rgba(96, 165, 250, 0.4)" stroke-width="2"></path>
+</svg>
+</div>
+</section>
+<!-- Section 4: The Value Behind Every Purchase -->
+<section class="value-pinned-outer" id="section-four">
+<div class="value-pinned-inner" id="value-pinned-inner">
+<!-- Heading -->
+<div class="value-heading-block" id="value-heading-block">
+<h2 class="value-main-heading wipe-text">The Value Behind Every Purchase</h2>
+<p class="value-subtitle">Smarter decisions. Stronger suppliers. Better outcomes.</p>
+</div>
+<!-- Horizontal card track -->
+<div class="value-track-viewport">
+<div class="value-cards-track" id="value-cards-track">
+<!-- Card 01 -->
+<div class="vcard" data-index="0">
+<span class="vcard-num">01</span>
+<div class="vcard-icon">
+<svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<rect height="24" rx="4" stroke="currentColor" stroke-width="2.5" width="36" x="6" y="14"></rect>
+<path d="M6 20h36" stroke="currentColor" stroke-linecap="round" stroke-width="2.5"></path>
+<path d="M14 30h6M28 30h6" stroke="currentColor" stroke-linecap="round" stroke-width="2.5"></path>
+<circle cx="24" cy="8" r="4" stroke="currentColor" stroke-width="2.5"></circle>
+</svg>
+</div>
+<h3 class="vcard-title">Spend With Confidence</h3>
+<p class="vcard-desc">Gain clear visibility into spending, reduce unnecessary costs, and make purchasing decisions with confidence.</p>
+</div>
+<!-- Card 02 -->
+<div class="vcard" data-index="1">
+<span class="vcard-num">02</span>
+<div class="vcard-icon">
+<svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<circle cx="12" cy="24" r="5" stroke="currentColor" stroke-width="2.5"></circle>
+<circle cx="36" cy="12" r="5" stroke="currentColor" stroke-width="2.5"></circle>
+<circle cx="36" cy="36" r="5" stroke="currentColor" stroke-width="2.5"></circle>
+<path d="M17 24h7M29 15l-8 7M29 33l-8-7" stroke="currentColor" stroke-linecap="round" stroke-width="2.5"></path>
+</svg>
+</div>
+<h3 class="vcard-title">Build Better Supplier Relationships</h3>
+<p class="vcard-desc">Identify dependable suppliers, strengthen partnerships, monitor performance, and create long-term value.</p>
+</div>
+<!-- Card 03 -->
+<div class="vcard" data-index="2">
+<span class="vcard-num">03</span>
+<div class="vcard-icon">
+<svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<rect height="8" rx="2" stroke="currentColor" stroke-width="2.5" width="32" x="8" y="8"></rect>
+<rect height="8" rx="2" stroke="currentColor" stroke-width="2.5" width="22" x="8" y="20"></rect>
+<rect height="8" rx="2" stroke="currentColor" stroke-width="2.5" width="14" x="8" y="32"></rect>
+</svg>
+</div>
+<h3 class="vcard-title">Reduce Complexity</h3>
+<p class="vcard-desc">Simplify approvals, purchasing, contracts, invoices, and supplier processes so your teams can work efficiently.</p>
+</div>
+<!-- Card 04 -->
+<div class="vcard" data-index="3">
+<span class="vcard-num">04</span>
+<div class="vcard-icon">
+<svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M10 34L20 22l8 6 10-14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></path>
+<path d="M32 14h6v6" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></path>
+<circle cx="24" cy="40" r="3" stroke="currentColor" stroke-width="2.5"></circle>
+</svg>
+</div>
+<h3 class="vcard-title">Stay Ready for What Comes Next</h3>
+<p class="vcard-desc">Build flexible procurement processes that adapt to changing markets, suppliers, business needs, and opportunities.</p>
+</div>
+<!-- DUPLICATED FOR LOOP -->
+<!-- Card 01 -->
+<div class="vcard" data-index="0">
+<span class="vcard-num">01</span>
+<div class="vcard-icon">
+<svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<rect height="24" rx="4" stroke="currentColor" stroke-width="2.5" width="36" x="6" y="14"></rect>
+<path d="M6 20h36" stroke="currentColor" stroke-linecap="round" stroke-width="2.5"></path>
+<path d="M14 30h6M28 30h6" stroke="currentColor" stroke-linecap="round" stroke-width="2.5"></path>
+<circle cx="24" cy="8" r="4" stroke="currentColor" stroke-width="2.5"></circle>
+</svg>
+</div>
+<h3 class="vcard-title">Spend With Confidence</h3>
+<p class="vcard-desc">Gain clear visibility into spending, reduce unnecessary costs, and make purchasing decisions with confidence.</p>
+</div>
+<!-- Card 02 -->
+<div class="vcard" data-index="1">
+<span class="vcard-num">02</span>
+<div class="vcard-icon">
+<svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<circle cx="12" cy="24" r="5" stroke="currentColor" stroke-width="2.5"></circle>
+<circle cx="36" cy="12" r="5" stroke="currentColor" stroke-width="2.5"></circle>
+<circle cx="36" cy="36" r="5" stroke="currentColor" stroke-width="2.5"></circle>
+<path d="M17 24h7M29 15l-8 7M29 33l-8-7" stroke="currentColor" stroke-linecap="round" stroke-width="2.5"></path>
+</svg>
+</div>
+<h3 class="vcard-title">Build Better Supplier Relationships</h3>
+<p class="vcard-desc">Identify dependable suppliers, strengthen partnerships, monitor performance, and create long-term value.</p>
+</div>
+<!-- Card 03 -->
+<div class="vcard" data-index="2">
+<span class="vcard-num">03</span>
+<div class="vcard-icon">
+<svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<rect height="8" rx="2" stroke="currentColor" stroke-width="2.5" width="32" x="8" y="8"></rect>
+<rect height="8" rx="2" stroke="currentColor" stroke-width="2.5" width="22" x="8" y="20"></rect>
+<rect height="8" rx="2" stroke="currentColor" stroke-width="2.5" width="14" x="8" y="32"></rect>
+</svg>
+</div>
+<h3 class="vcard-title">Reduce Complexity</h3>
+<p class="vcard-desc">Simplify approvals, purchasing, contracts, invoices, and supplier processes so your teams can work efficiently.</p>
+</div>
+<!-- Card 04 -->
+<div class="vcard" data-index="3">
+<span class="vcard-num">04</span>
+<div class="vcard-icon">
+<svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M10 34L20 22l8 6 10-14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></path>
+<path d="M32 14h6v6" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></path>
+<circle cx="24" cy="40" r="3" stroke="currentColor" stroke-width="2.5"></circle>
+</svg>
+</div>
+<h3 class="vcard-title">Stay Ready for What Comes Next</h3>
+<p class="vcard-desc">Build flexible procurement processes that adapt to changing markets, suppliers, business needs, and opportunities.</p>
+</div>
+</div><!-- end track -->
+</div><!-- end viewport -->
+<!-- Progress indicator -->
+<div class="value-progress" id="value-progress" style="display: none;">
+<button aria-label="Card 1" class="vprog-dot active" data-idx="0"></button>
+<div class="vprog-line"><div class="vprog-fill" id="vprog-fill"></div></div>
+<button aria-label="Card 2" class="vprog-dot" data-idx="1"></button>
+<div class="vprog-line"><div class="vprog-fill" id="vprog-fill2"></div></div>
+<button aria-label="Card 3" class="vprog-dot" data-idx="2"></button>
+<div class="vprog-line"><div class="vprog-fill" id="vprog-fill3"></div></div>
+<button aria-label="Card 4" class="vprog-dot" data-idx="3"></button>
+<span class="vprog-label" id="vprog-label">01 / 04</span>
+</div>
+</div><!-- end inner -->
+</section>
+<!-- CTA Banner Section -->
+<!-- CTA Banner Section FIXED -->
+<!-- CTA Banner Section RESTORED -->
+<section class="cta-banner-section-v2">
+<div class="cta-blue-box">
+<div class="cta-image-side" style="flex: 0 0 45%;">
+<img alt="ROI Growth" class="dollar-img" src="images/roi-growth.webp" style="width: 100%; height: 100%; min-height: 450px; border-radius: 16px; object-fit: cover; box-shadow: 0 15px 40px rgba(0,0,0,0.6); transform: scale(1.05);"/>
+</div>
+<div class="cta-text-side" style="flex: 1;">
+<h2 style="font-size: 38px; font-weight: 700; color: #FFF; margin-bottom: 24px; line-height: 1.2;">Turn Every Purchase <br class="hidden md:block"/> Into Business Value</h2>
+<p style="font-size: 15px; color: rgba(255,255,255,0.8); line-height: 1.6; margin-bottom: 16px;">Every supplier you choose affects something beyond the invoice. It affects your customers. Your employee. Your timelines. Your reputation. And ultimately, the future you're trying to build.</p>
+<p style="font-size: 15px; color: rgba(255,255,255,0.8); line-height: 1.6; margin-bottom: 16px;">That's why we don't see procurement as simply buying products or negotiating prices. We see it as protecting the decisions that keep your business moving.</p>
+<p style="font-size: 15px; color: rgba(255,255,255,0.8); line-height: 1.6; margin-bottom: 24px;">We bring clarity to complexity, discipline to spending, and people to the process +” so you can move forward knowing that every important purchase is working toward something bigger.</p>
+<div style="border-left: 3px solid #3B82F6; padding-left: 16px; margin-top: 24px;">
+<p class="closing-line" style="font-size: 16px; font-weight: 600; color: #FFF; margin: 0;">Better procurement isn't just about what you save. It's about what you're able to build.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- New Section: Metrics (Animated Counters) -->
+<section class="metrics-section" id="metrics-section" style="padding: 40px 20px; background: #04091A; position: relative; z-index: 5;">
+<div style="max-width: 1200px; margin: 0 auto; text-align: center;">
+<h2 class="wipe-text" style="font-size: 36px; margin-bottom: 30px;">Delivering Measurable Impact</h2>
+<div style="display: flex; justify-content: center; gap: 40px; flex-wrap: wrap;">
+<div class="metric-card hover-glow" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(59,130,246,0.3); border-radius: 20px; padding: 40px; min-width: 280px; transform: translateY(50px); opacity: 1; transition: all 0.8s ease;">
+<h3 class="counter" data-target="250" style="font-size: 64px; font-weight: 800; color: #3B82F6; margin: 0;">0</h3>
+<div style="font-size: 24px; font-weight: 700; color: #60A5FA;">Million+</div>
+<p style="color: rgba(255,255,255,0.6); margin-top: 10px;">Spend Managed</p>
+</div>
+<div class="metric-card hover-glow" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(16,185,129,0.3); border-radius: 20px; padding: 40px; min-width: 280px; transform: translateY(50px); opacity: 1; transition: all 0.8s ease; transition-delay: 0.2s;">
+<h3 class="counter" data-target="15" style="font-size: 64px; font-weight: 800; color: #10B981; margin: 0;">0</h3>
+<div style="font-size: 24px; font-weight: 700; color: #34D399;">% Average</div>
+<p style="color: rgba(255,255,255,0.6); margin-top: 10px;">Cost Savings</p>
+</div>
+<div class="metric-card hover-glow" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(139,92,246,0.3); border-radius: 20px; padding: 40px; min-width: 280px; transform: translateY(50px); opacity: 1; transition: all 0.8s ease; transition-delay: 0.4s;">
+<h3 class="counter" data-target="50" style="font-size: 64px; font-weight: 800; color: #8B5CF6; margin: 0;">0</h3>
+<div style="font-size: 24px; font-weight: 700; color: #A78BFA;">+ Categories</div>
+<p style="color: rgba(255,255,255,0.6); margin-top: 10px;">Optimized</p>
+</div>
+</div>
+</div>
+</section>
+<!-- New Animated Section: Process -->
+<section class="process-section" id="process-section">
+<div class="process-bg-glow"></div>
+<div class="process-header">
+<h2 class="process-title wipe-text">How We Transform Procurement</h2>
+<p class="process-subtitle fade-up-text">A strategic, end-to-end approach to maximizing your purchasing power.</p>
+</div>
+<div class="process-container">
+<div class="process-line-bg"></div>
+<div class="process-line-fill"></div>
+<div class="process-step step-left">
+<div class="step-dot">
+<svg fill="none" height="24" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg>
+</div>
+<div class="step-content">
+<div class="step-num">01</div>
+<h3>Deep Spend Analysis</h3>
+<p>We analyze your historical data to uncover hidden savings, consolidate suppliers, and identify maverick spend.</p>
+</div>
+</div>
+<div class="process-step step-right">
+<div class="step-dot">
+<svg fill="none" height="24" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="24"><circle cx="11" cy="11" r="8"></circle><path d="M21 21l-4.35-4.35"></path></svg>
+</div>
+<div class="step-content">
+<div class="step-num">02</div>
+<h3>Strategic Sourcing</h3>
+<p>We leverage industry insights and competitive bidding to select the highest quality suppliers at the best possible rates.</p>
+</div>
+</div>
+<div class="process-step step-left">
+<div class="step-dot">
+<svg fill="none" height="24" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" x2="8" y1="13" y2="13"></line><line x1="16" x2="8" y1="17" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+</div>
+<div class="step-content">
+<div class="step-num">03</div>
+<h3>Contract Negotiation</h3>
+<p>Our team locks in favorable terms, ensuring compliance, reducing risk, and fostering strong supplier partnerships.</p>
+</div>
+</div>
+<div class="process-step step-right">
+<div class="step-dot">
+<svg fill="none" height="24" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+</div>
+<div class="step-content">
+<div class="step-num">04</div>
+<h3>Continuous Optimization</h3>
+<p>We actively monitor supplier performance and compliance to guarantee long-term value and sustained growth.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 6: Testimonials -->
+<section class="testimonials-section" id="section-testimonials">
+<div class="testimonials-container">
+<h2 class="wipe-text section-title test-title">Testimonials</h2>
+<div class="testimonials-carousel-wrapper">
+<div class="testimonials-grid" id="testimonials-grid">
+  <div class="testimonial-card" onclick="toggleExpand(this)">
+      <div class="card-base-content">
+          <div class="bg-quote-mark">"</div>
+          <p class="quote">"Your team brought structure to a procurement process that had become difficult to manage. We now have much better visibility into spending."</p>
+          <div class="testim-author-block">
+              <div class="avatar-wrapper">
+                  <img alt="Sarah Mitchell" class="avatar" src="images/avatar-1.webp"/>
+              </div>
+              <div class="author-info">
+                  <div class="author">Sarah Mitchell</div>
+                  <div class="role">Procurement Director</div>
+              </div>
+          </div>
+      </div>
+      <div class="card-overlay">
+          <div class="overlay-left">
+              <img src="images/avatar-1.webp" alt="Sarah Mitchell" />
+          </div>
+          <div class="overlay-right">
+              <h4 class="overlay-name">Sarah Mitchell</h4>
+              <p class="overlay-role">Procurement Director</p>
+              <div class="social-icons-large">
+                  <a href="404.html" onclick="event.stopPropagation()" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+                  <a href="404.html" onclick="event.stopPropagation()" aria-label="Twitter"><i class="fa-brands fa-twitter"></i></a>
+                  <a href="404.html" onclick="event.stopPropagation()" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+              </div>
+          </div>
+      </div>
+  </div>
+  <div class="testimonial-card" onclick="toggleExpand(this)">
+      <div class="card-base-content">
+          <div class="bg-quote-mark">"</div>
+          <p class="quote">"What stood out was the ability to look beyond price. The process helped us find suppliers that were a much better fit for our long-term requirements."</p>
+          <div class="testim-author-block">
+              <div class="avatar-wrapper">
+                  <img alt="Daniel Wong" class="avatar" src="images/avatar-2.webp"/>
+              </div>
+              <div class="author-info">
+                  <div class="author">Daniel Wong</div>
+                  <div class="role">Operations Lead</div>
+              </div>
+          </div>
+      </div>
+      <div class="card-overlay">
+          <div class="overlay-left">
+              <img src="images/avatar-2.webp" alt="Daniel Wong" />
+          </div>
+          <div class="overlay-right">
+              <h4 class="overlay-name">Daniel Wong</h4>
+              <p class="overlay-role">Operations Lead</p>
+              <div class="social-icons-large">
+                  <a href="404.html" onclick="event.stopPropagation()" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+                  <a href="404.html" onclick="event.stopPropagation()" aria-label="Twitter"><i class="fa-brands fa-twitter"></i></a>
+                  <a href="404.html" onclick="event.stopPropagation()" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+              </div>
+          </div>
+      </div>
+  </div>
+  <div class="testimonial-card" onclick="toggleExpand(this)">
+      <div class="card-base-content">
+          <div class="bg-quote-mark">"</div>
+          <p class="quote">"Our teams spend significantly less time chasing quotes, suppliers, and paperwork. The process feels much more controlled and predictable."</p>
+          <div class="testim-author-block">
+              <div class="avatar-wrapper">
+                  <img alt="Priya Raman" class="avatar" src="images/avatar-3.webp"/>
+              </div>
+              <div class="author-info">
+                  <div class="author">Priya Raman</div>
+                  <div class="role">Finance Manager</div>
+              </div>
+          </div>
+      </div>
+      <div class="card-overlay">
+          <div class="overlay-left">
+              <img src="images/avatar-3.webp" alt="Priya Raman" />
+          </div>
+          <div class="overlay-right">
+              <h4 class="overlay-name">Priya Raman</h4>
+              <p class="overlay-role">Finance Manager</p>
+              <div class="social-icons-large">
+                  <a href="404.html" onclick="event.stopPropagation()" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+                  <a href="404.html" onclick="event.stopPropagation()" aria-label="Twitter"><i class="fa-brands fa-twitter"></i></a>
+                  <a href="404.html" onclick="event.stopPropagation()" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+              </div>
+          </div>
+      </div>
+  </div>
+  <div class="testimonial-card" onclick="toggleExpand(this)">
+      <div class="card-base-content">
+          <div class="bg-quote-mark">"</div>
+          <p class="quote">"The level of strategic insight we gained has been invaluable. We've optimized our entire supply chain thanks to this robust platform."</p>
+          <div class="testim-author-block">
+              <div class="avatar-wrapper">
+                  <img alt="James Carter" class="avatar" src="images/avatar-1.webp"/>
+              </div>
+              <div class="author-info">
+                  <div class="author">James Carter</div>
+                  <div class="role">Supply Chain VP</div>
+              </div>
+          </div>
+      </div>
+      <div class="card-overlay">
+          <div class="overlay-left">
+              <img src="images/avatar-1.webp" alt="James Carter" />
+          </div>
+          <div class="overlay-right">
+              <h4 class="overlay-name">James Carter</h4>
+              <p class="overlay-role">Supply Chain VP</p>
+              <div class="social-icons-large">
+                  <a href="404.html" onclick="event.stopPropagation()" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+                  <a href="404.html" onclick="event.stopPropagation()" aria-label="Twitter"><i class="fa-brands fa-twitter"></i></a>
+                  <a href="404.html" onclick="event.stopPropagation()" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+              </div>
+          </div>
+      </div>
+  </div>
+  <div class="testimonial-card" onclick="toggleExpand(this)">
+      <div class="card-base-content">
+          <div class="bg-quote-mark">"</div>
+          <p class="quote">"An absolute game-changer for our vendor management. Tracking performance and compliance is now completely automated and reliable."</p>
+          <div class="testim-author-block">
+              <div class="avatar-wrapper">
+                  <img alt="Anita Silva" class="avatar" src="images/avatar-2.webp"/>
+              </div>
+              <div class="author-info">
+                  <div class="author">Anita Silva</div>
+                  <div class="role">Compliance Officer</div>
+              </div>
+          </div>
+      </div>
+      <div class="card-overlay">
+          <div class="overlay-left">
+              <img src="images/avatar-2.webp" alt="Anita Silva" />
+          </div>
+          <div class="overlay-right">
+              <h4 class="overlay-name">Anita Silva</h4>
+              <p class="overlay-role">Compliance Officer</p>
+              <div class="social-icons-large">
+                  <a href="404.html" onclick="event.stopPropagation()" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+                  <a href="404.html" onclick="event.stopPropagation()" aria-label="Twitter"><i class="fa-brands fa-twitter"></i></a>
+                  <a href="404.html" onclick="event.stopPropagation()" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+  <!-- Carousel Controls (Mobile Only) -->
+<div class="carousel-controls">
+<button aria-label="Previous Testimonial" class="carousel-btn prev-btn" id="t-prev">
+<svg fill="none" height="20" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="20"><path d="M15 18l-6-6 6-6"></path></svg>
+</button>
+<div class="carousel-dots" id="t-dots">
+<button aria-label="Go to testimonial 1" class="dot active" data-index="0"></button>
+<button aria-label="Go to testimonial 2" class="dot" data-index="1"></button>
+<button aria-label="Go to testimonial 3" class="dot" data-index="2"></button>
+</div>
+<button aria-label="Next Testimonial" class="carousel-btn next-btn" id="t-next">
+<svg fill="none" height="20" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="20"><path d="M9 18l6-6-6-6"></path></svg>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- FAQ -->
+<section class="faq-section">
+<h2 class="wipe-text faq-title">FAQ</h2>
+<div class="faq-list">
+<div class="faq-item">
+<div class="faq-question">
+<span>What types of businesses do you work with?</span>
+<span class="arrow">'</span>
+</div>
+<div class="faq-answer">
+<p>We work with businesses of all sizes, from growing startups to established enterprises, across various industries to optimize their procurement processes.</p>
+</div>
+</div>
+<div class="faq-item">
+<div class="faq-question">
+<span>Do you handle the entire procurement process?</span>
+<span class="arrow">'</span>
+</div>
+<div class="faq-answer">
+<p>Yes, we offer end-to-end source-to-pay operations, but we can also step in to manage specific stages depending on your business needs.</p>
+</div>
+</div>
+<div class="faq-item">
+<div class="faq-question">
+<span>Can you work with our existing suppliers?</span>
+<span class="arrow">'</span>
+</div>
+<div class="faq-answer">
+<p>Absolutely. We focus on building better supplier relationships, whether that means onboarding new vendors or strengthening ties with your current partners.</p>
+</div>
+</div>
+<div class="faq-item">
+<div class="faq-question">
+<span>Do you only focus on reducing costs?</span>
+<span class="arrow">'</span>
+</div>
+<div class="faq-answer">
+<p>No. While cost reduction is a key benefit, we also prioritize quality, compliance, supplier reliability, and long-term business value.</p>
+</div>
+</div>
+<div class="faq-item">
+<div class="faq-question">
+<span>Can you help us find new suppliers?</span>
+<span class="arrow">'</span>
+</div>
+<div class="faq-answer">
+<p>Yes, our strategic sourcing team identifies, evaluates, and selects top-tier suppliers based on quality, cost, and capability.</p>
+</div>
+</div>
+<div class="faq-item">
+<div class="faq-question">
+<span>Can you manage procurement for a growing company?</span>
+<span class="arrow">'</span>
+</div>
+<div class="faq-answer">
+<p>Definitely. Our processes are designed to scale, adapting as you grow to respond faster to new opportunities and demands.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Final CTA Section -->
+<section class="final-cta-section" id="final-cta">
+<div class="cta-gradient-bg"></div>
+<div class="cta-light-sweep"></div>
+<div class="final-cta-container">
+<h2 class="large-cta-heading">
+<span class="cta-line"><span>Ready to Make</span></span>
+<span class="cta-line"><span>Procurement Work</span></span>
+<span class="cta-line"><span>Harder for Your Business?</span></span>
+</h2>
+<p class="cta-support-text">Reduce unnecessary spend, find better suppliers, streamline purchasing, and build a procurement function that creates lasting business value.</p>
+<p class="cta-sub-line">Let's build a smarter procurement strategy.</p>
+<div class="cta-btn-wrapper">
+<a class="cta-primary-btn" href="services.html">
+<span class="btn-text">Explore Our Services</span>
+</a>
+</div>
+</div>
+</section>
+<!-- Footer -->
+<!-- Footer -->
+<footer class="border-t border-white/10 pt-8 pb-4 mt-4 relative z-10" id="contact" style="background: rgba(4, 7, 22, 0.6); backdrop-filter: blur(10px);">
+  <div class="w-full px-6" style="max-width: 1240px; margin: 0 auto; box-sizing: border-box;">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+<!-- COLUMN 1: LOGO -->
+<div data-aos="fade-up" data-aos-duration="800">
+<a class="footer-logo" href="index.html">
+<img alt="Stackly" src="logo.webp" style="height: 64px; width: auto;"/>
+</a>
+<p class="text-[13px] text-gray-400 leading-relaxed mb-6">Smarter procurement.<br/>Stronger businesses.</p>
+<div>
+<span class="block text-[12px] font-semibold tracking-widest text-gray-500 mb-4 uppercase">FOLLOW STACKLY</span>
+<div class="flex flex-wrap gap-3">
+<a class="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-gray-300 hover:bg-[#3B82F6] hover:border-[#3B82F6] hover:text-white hover:-translate-y-1 transition-all duration-300" href="404.html"><svg fill="currentColor" height="18" viewbox="0 0 24 24" width="18"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"></path></svg></a>
+<a class="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-gray-300 hover:bg-[#3B82F6] hover:border-[#3B82F6] hover:text-white hover:-translate-y-1 transition-all duration-300" href="404.html"><svg fill="currentColor" height="18" viewbox="0 0 24 24" width="18"><path d="M21.216 3h-3.322l-7.256 8.29-5.791-8.29h-8.847l9.638 13.793-7.638 8.717h3.322l7.669-8.761 6.134 8.761h8.875l-10.155-14.537 7.371-8.423zm-4.708 19.537h-2.188l-11.139-15.933h2.292l9.96 14.249h2.075l-10.999-15.733h-2.071l12.07 17.417z"></path></svg></a>
+<a class="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-gray-300 hover:bg-[#3B82F6] hover:border-[#3B82F6] hover:text-white hover:-translate-y-1 transition-all duration-300" href="404.html"><svg fill="currentColor" height="18" viewbox="0 0 24 24" width="18"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"></path></svg></a>
+<a class="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-gray-300 hover:bg-[#3B82F6] hover:border-[#3B82F6] hover:text-white hover:-translate-y-1 transition-all duration-300" href="404.html"><svg fill="currentColor" height="18" viewbox="0 0 24 24" width="18"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"></path></svg></a>
+<a class="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-gray-300 hover:bg-[#3B82F6] hover:border-[#3B82F6] hover:text-white hover:-translate-y-1 transition-all duration-300" href="404.html"><svg fill="currentColor" height="18" viewbox="0 0 24 24" width="18"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.5 12 3.5 12 3.5s-7.505 0-9.377.55a3.015 3.015 0 0 0-2.122 2.136C0 8.07 0 12 0 12s0 3.93.498 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.55 9.377.55 9.377.55s7.505 0 9.377-.55a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"></path></svg></a>
+</div>
+</div>
+</div>
+<!-- COLUMN 2: QUICK LINKS -->
+<div data-aos="fade-up" data-aos-delay="100" data-aos-duration="800">
+<h4 class="text-white font-semibold mb-6 tracking-wide text-[14px]">QUICK LINKS</h4>
+<ul class="flex flex-col gap-3 text-[13px] text-gray-400 list-none p-0 m-0">
+<li><a class="hover:text-white transition-colors" href="index.html">Home</a></li>
+<li><a class="hover:text-white transition-colors" href="about.html">About</a></li>
+<li><a class="hover:text-white transition-colors" href="404.html">Services</a></li>
+<li><a class="hover:text-white transition-colors" href="blog.html">Blog</a></li>
+<li><a class="hover:text-white transition-colors" href="contact.html">Contact</a></li>
+</ul>
+</div>
+<!-- COLUMN 3: SERVICES -->
+<div data-aos="fade-up" data-aos-delay="200" data-aos-duration="800">
+<h4 class="text-white font-semibold mb-6 tracking-wide text-[14px]">SERVICES</h4>
+<ul class="flex flex-col gap-3 text-[13px] text-gray-400 list-none p-0 m-0">
+<li><a class="hover:text-white transition-colors" href="404.html">Strategic Sourcing</a></li>
+<li><a class="hover:text-white transition-colors" href="404.html">Spend Management</a></li>
+<li><a class="hover:text-white transition-colors" href="404.html">Contract Management</a></li>
+<li><a class="hover:text-white transition-colors" href="404.html">Source-to-Pay</a></li>
+</ul>
+</div>
+<!-- COLUMN 4: GET IN TOUCH -->
+<div data-aos="fade-up" data-aos-delay="300" data-aos-duration="800">
+<h4 class="text-white font-semibold mb-6 tracking-wide text-[14px]">GET IN TOUCH</h4>
+<ul class="flex flex-col gap-3 text-[13px] text-gray-400 list-none p-0 m-0">
+<li>+91 90909 09090</li>
+<li>info@stackly.com</li>
+<li class="leading-relaxed">MMR Complex, Chinna Thirupathi,<br/>Near by Chinna Moniyappan Kovil,<br/>Salem 636008.</li>
+</ul>
+</div>
+</div>
+<!-- DIVIDER -->
+<hr class="border-white/10 m-0"/>
+<!-- BOTTOM COPYRIGHT -->
+<div class="flex flex-row justify-between items-center gap-4 pt-6" data-aos="fade-up" data-aos-delay="400" data-aos-duration="800">
+<p class="text-[14px] text-gray-500 m-0">Copyright &copy; 2026 Stackly </p>
+<div class="flex gap-6">
+<a class="text-[14px] text-gray-500 hover:text-[#3B82F6] transition-colors" href="404.html">Privacy Policies</a>
+<a class="text-[14px] text-gray-500 hover:text-[#3B82F6] transition-colors" href="404.html">Terms &amp; Condition</a>
+</div>
+</div>
+</div>
+</footer>
+</div>
+<script src="script.js"></script>
+
+</body>
+</html>
+

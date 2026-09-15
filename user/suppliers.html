@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suppliers - Stackly Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body { background-color: #0b1120; color: #f8fafc; font-family: 'Inter', sans-serif; display: flex; height: 100vh; overflow: hidden; margin: 0; }
+        .sidebar { width: 260px; background-color: #020617; border-right: 1px solid rgba(255,255,255,0.05); display: flex; flex-direction: column; padding: 24px 16px; overflow-y: auto; z-index: 10; }
+        .content { flex: 1; padding: 0px 40px 32px 40px; overflow-y: auto; scroll-behavior: smooth; position: relative; }
+        .nav-section { color: #64748b; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.05em; margin: 24px 0 8px 12px; text-transform: uppercase; }
+        .nav-link { padding: 10px 12px; color: #94a3b8; text-decoration: none; border-radius: 8px; margin-bottom: 4px; transition: 0.2s; display: flex; align-items: center; font-size: 0.875rem; font-weight: 500; }
+        .nav-link i { width: 24px; font-size: 1.1rem; }
+        .nav-link:hover { color: #e2e8f0; background: rgba(255,255,255,0.03); }
+        .nav-link.active { background: #0f172a; color: #3b82f6; position: relative; }
+        .nav-link.active::before { content: ''; position: absolute; left: -16px; top: 10%; height: 80%; width: 4px; background: #3b82f6; border-radius: 0 4px 4px 0; }
+        .card { background: #0f172a; border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; padding: 24px; margin-bottom: 24px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); transition: transform 0.3s; }
+        .card:hover { transform: translateY(-2px); }
+        .kpi-title { font-size: 0.75rem; font-weight: 600; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; display: flex; justify-content: space-between; align-items: center; }
+        .kpi-value { font-size: 1.875rem; font-weight: 700; color: #f8fafc; margin: 8px 0; }
+        .kpi-trend { font-size: 0.75rem; font-weight: 500; }
+        .trend-up { color: #10b981; }
+        .trend-down { color: #ef4444; }
+        table { width: 100%; border-collapse: collapse; }
+        th { text-align: left; padding: 12px; font-size: 0.75rem; text-transform: uppercase; color: #64748b; font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        td { padding: 16px 12px; font-size: 0.875rem; color: #cbd5e1; border-bottom: 1px solid rgba(255,255,255,0.02); }
+        .badge { padding: 4px 8px; border-radius: 9999px; font-size: 0.7rem; font-weight: 600; display: inline-flex; align-items: center; justify-content: center; }
+        .badge-green { background: rgba(16, 185, 129, 0.1); color: #34d399; }
+        .badge-yellow { background: rgba(245, 158, 11, 0.1); color: #fbbf24; }
+        .badge-blue { background: rgba(59, 130, 246, 0.1); color: #60a5fa; }
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #020617; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="flex items-center gap-3 px-3 mb-8">
+            <div class="w-8 h-8 rounded bg-blue-600 flex items-center justify-center font-bold text-lg"><i class="fa fa-bolt"></i></div>
+            <h2 class="text-xl font-bold tracking-wide">Stackly</h2>
+        </div>
+        
+        <div>
+            <div class="nav-section">Overview</div>
+            <a href="index.html" class="nav-link "><i class="fa fa-th-large"></i> User Overview</a>
+
+            
+            <div class="nav-section">Operations</div>
+            <a href="purchase_orders.html" class="nav-link "><i class="fa fa-file-invoice"></i> Purchase Orders</a>
+<a href="suppliers.html" class="nav-link active"><i class="fa fa-users"></i> Suppliers</a>
+<a href="contracts.html" class="nav-link "><i class="fa fa-file-signature"></i> Contracts</a>
+<a href="reports.html" class="nav-link "><i class="fa fa-chart-line"></i> Spend Analysis</a>
+
+        </div>
+        
+        <div style="flex: 1;"></div>
+        
+        <div>
+            <div class="nav-section">System</div>
+            <a href="#" class="nav-link"><i class="fa fa-cog"></i> Settings</a>
+            <a href="../login.html" class="nav-link text-red-400 hover:text-red-300 hover:bg-red-900/10"><i class="fa fa-sign-out-alt"></i> Logout</a>
+        </div>
+    </div>
+    <div class="content">
+        <div class="flex justify-between items-center mb-8">
+            <div>
+                <h1 class="text-2xl font-bold mb-1">Suppliers</h1>
+                <p class="text-sm text-gray-400">Monitor supplier health, compliance, and performance metrics.</p>
+            </div>
+            <div class="flex items-center gap-6">
+                <button class="text-gray-400 hover:text-white transition"><i class="fa fa-search"></i></button>
+                <div class="relative cursor-pointer text-gray-400 hover:text-white transition">
+                    <i class="fa fa-bell"></i>
+                    <span class="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+                </div>
+                <div class="flex items-center gap-3 bg-gray-900/50 py-1.5 px-3 rounded-full border border-white/5 cursor-pointer hover:bg-gray-800 transition">
+                    <div class="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center font-bold text-xs">SJ</div>
+                    <span class="text-sm font-medium pr-1">Sarah Jenkins</span>
+                </div>
+            </div>
+        </div>
+        
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                    <div class="card !mb-0"><div class="kpi-title">Active Suppliers <i class="fa fa-user-check"></i></div><p class="kpi-value">342</p><p class="kpi-trend"><span class="trend-up">&uarr; 12</span> onboarded this month</p></div>
+                    <div class="card !mb-0"><div class="kpi-title">Compliance Score <i class="fa fa-shield-alt"></i></div><p class="kpi-value">94%</p><p class="kpi-trend"><span class="trend-up">&uarr; 2%</span> improvement</p></div>
+                    <div class="card !mb-0"><div class="kpi-title">High Risk Suppliers <i class="fa fa-exclamation-triangle text-red-500"></i></div><p class="kpi-value">8</p><p class="kpi-trend text-red-400">Requires immediate review</p></div>
+                </div>
+                <div class="card">
+                    <h3 class="text-sm font-bold text-white mb-4">Top Performing Suppliers</h3>
+                    <table><thead><tr><th>Supplier Name</th><th>Category</th><th>Spend (YTD)</th><th>Rating</th></tr></thead>
+                    <tbody>
+                        <tr><td class="font-medium text-white">TechCorp Solutions</td><td>IT Hardware</td><td>.2M</td><td><span class="text-green-400">98/100</span></td></tr>
+                        <tr><td class="font-medium text-white">Apex Cloud Services</td><td>Software / SaaS</td><td></td><td><span class="text-green-400">95/100</span></td></tr>
+                        <tr><td class="font-medium text-white">Global Office Supplies</td><td>Facilities</td><td></td><td><span class="text-yellow-400">88/100</span></td></tr>
+                    </tbody></table>
+                </div>
+            
+    
+<div class="w-full mt-auto opacity-60 flex flex-col md:flex-row items-center justify-between text-xs text-gray-500 pb-4 pt-6 border-t border-white/10 px-2 gap-4">
+            <div>Stackly Procurement Dashboard &copy; 2026. All rights reserved.</div>
+            <div class="flex gap-6">
+                <a href="#" class="hover:text-white transition-colors">Privacy Policy</a>
+                <a href="#" class="hover:text-white transition-colors">Terms of Service</a>
+                <a href="#" class="hover:text-white transition-colors">Help Center</a>
+                <a href="#" class="hover:text-white transition-colors">Contact Support</a>
+            </div>
+        </div>
+    </div>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 600, once: true, offset: 50 });
+        Chart.defaults.color = '#94a3b8';
+        Chart.defaults.borderColor = 'rgba(255,255,255,0.05)';
+        Chart.defaults.font.family = 'Inter';
+        
+    </script>
+</body>
+</html>
+

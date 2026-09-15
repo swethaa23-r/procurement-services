@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign Up - Stackly</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" />
+<style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background-color: #080c1e; color: #fff; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+    
+    .split-layout { display: flex; min-height: 100vh; }
+    
+    .left-panel {
+        flex: 1;
+        background: linear-gradient(135deg, #0f172a 0%, #020617 100%);
+        padding: 60px;
+        display: flex; flex-direction: column; justify-content: center;
+        position: relative; overflow: hidden;
+    }
+    @media(max-width: 900px) { 
+        .split-layout { flex-direction: column; }
+        .left-panel { flex: none; padding: 40px 20px; align-items: center; text-align: center; }
+    }
+    
+    .orb { position: absolute; border-radius: 50%; filter: blur(80px); z-index: 0; }
+    .orb-1 { width: 400px; height: 400px; background: rgba(59,130,246,0.15); top: -100px; left: -100px; animation: floatSlow 8s ease-in-out infinite alternate; }
+    .orb-2 { width: 300px; height: 300px; background: rgba(139,92,246,0.15); bottom: -50px; right: -50px; animation: floatSlow 10s ease-in-out infinite alternate-reverse; }
+    
+    @keyframes floatSlow {
+        0% { transform: translateY(0) scale(1); }
+        100% { transform: translateY(30px) scale(1.05); }
+    }
+
+    .left-logo { position: absolute; top: 40px; left: 60px; z-index: 10; }
+    @media(max-width: 900px) { 
+        .left-logo { position: relative; top: 0; left: 0; margin-bottom: 32px; }
+    }
+    
+    .left-content-wrapper { position: relative; z-index: 10; max-width: 480px; }
+    .left-heading { font-size: clamp(2.5rem, 4vw, 3.5rem); font-weight: 700; line-height: 1.1; margin-bottom: 20px; }
+    .left-sub { font-size: 1.1rem; color: rgba(255,255,255,0.7); line-height: 1.6; margin-bottom: 40px; }
+    
+    .benefits-list { display: flex; flex-direction: column; gap: 24px; }
+    .benefit-item { display: flex; align-items: center; gap: 16px; }
+    .benefit-icon { 
+        width: 40px; height: 40px; border-radius: 10px; 
+        background: rgba(59,130,246,0.1); border: 1px solid rgba(59,130,246,0.2);
+        display: flex; align-items: center; justify-content: center;
+        color: #60A5FA;
+    }
+    .benefit-text { font-size: 1rem; font-weight: 500; color: rgba(255,255,255,0.9); }
+    @media(max-width: 900px) {
+        .benefit-item { text-align: left; }
+    }
+
+    .right-panel {
+        flex: 1;
+        background: #0b1120; padding: 40px; position: relative; overflow-y: auto;
+        display: flex; flex-direction: column;
+    }
+    @media(max-width: 900px) { .right-panel { padding: 40px 20px; } }
+    
+    .right-panel-inner { width: 100%; max-width: 440px; margin: auto auto; flex-shrink: 0; }
+    
+    .form-header-badge {
+        display: inline-flex; align-items: center; justify-content: center;
+        width: 48px; height: 48px; border-radius: 12px;
+        background: linear-gradient(135deg, rgba(59,130,246,0.2) 0%, rgba(37,99,235,0.05) 100%);
+        border: 1px solid rgba(59,130,246,0.3); color: #60A5FA;
+        margin-bottom: 20px;
+    }
+    .form-heading { font-size: 2rem; font-weight: 700; margin-bottom: 8px; }
+    .form-sub { font-size: 0.95rem; color: rgba(255,255,255,0.5); margin-bottom: 32px; }
+    
+    .field-group { margin-bottom: 20px; position: relative; }
+    .field-label { display: block; font-size: 0.75rem; font-weight: 600; color: rgba(255,255,255,0.6); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.05em; }
+    
+    .input-wrapper { position: relative; display: flex; align-items: center; }
+    .input-wrapper .icon-left {
+        position: absolute; left: 16px;
+        color: rgba(255,255,255,0.4); font-size: 20px; pointer-events: none; transition: color 0.3s;
+    }
+    
+    .input-box, .select-box {
+        width: 100%;
+        background: #111627;
+        border: 1px solid rgba(255,255,255,0.08);
+        border-radius: 8px;
+        padding: 13px 16px 13px 48px;
+        color: #fff;
+        font-size: 14px;
+        font-family: 'Inter', sans-serif;
+        outline: none;
+        transition: all 0.3s ease;
+    }
+    .input-box::placeholder { color: rgba(255,255,255,0.25); }
+    .input-box:focus, .select-box:focus { 
+        border-color: #3B82F6; background: #151c33; 
+        box-shadow: 0 0 0 3px rgba(59,130,246,0.15);
+    }
+    
+    .input-wrapper:focus-within .icon-left { color: #3B82F6; }
+
+    .select-box {
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='rgba(255,255,255,0.4)' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 16px center;
+        cursor: pointer;
+    }
+    .select-box option { background: #111627; color: #fff; }
+
+    .icon-right {
+        position: absolute; right: 16px;
+        color: rgba(255,255,255,0.4); font-size: 20px; cursor: pointer; transition: color 0.3s;
+    }
+    .icon-right:hover { color: #fff; }
+
+    .password-strength {
+        display: flex; gap: 4px; margin-top: 8px;
+    }
+    .strength-bar {
+        flex: 1; height: 4px; border-radius: 2px; background: rgba(255,255,255,0.1);
+        transition: background 0.3s;
+    }
+    .strength-text {
+        font-size: 11px; color: rgba(255,255,255,0.4); margin-top: 4px; text-align: right;
+    }
+
+    .checkbox-group {
+        display: flex; align-items: flex-start; gap: 12px; margin-bottom: 24px;
+        font-size: 13px; color: rgba(255,255,255,0.6); line-height: 1.5;
+    }
+    .checkbox-group a { color: #3B82F6; text-decoration: none; }
+    .checkbox-group a:hover { text-decoration: underline; }
+    .custom-checkbox {
+        appearance: none; width: 18px; height: 18px; border: 1px solid rgba(255,255,255,0.2);
+        border-radius: 4px; background: #111627; cursor: pointer; position: relative;
+        flex-shrink: 0; margin-top: 1px; transition: all 0.2s;
+    }
+    .custom-checkbox:checked { background: #3B82F6; border-color: #3B82F6; }
+    .custom-checkbox:checked::after {
+        content: ''; position: absolute; left: 5px; top: 2px; width: 4px; height: 8px;
+        border: solid white; border-width: 0 2px 2px 0; transform: rotate(45deg);
+    }
+
+    .btn-primary {
+        width: 100%; 
+        background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%);
+        color: #fff; font-size: 15px; font-weight: 600;
+        padding: 14px 20px; border: none; border-radius: 8px; cursor: pointer;
+        transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
+        margin-top: 10px;
+        box-shadow: 0 4px 15px rgba(37,99,235,0.2);
+    }
+    .btn-primary:hover { 
+        background: linear-gradient(135deg, #60A5FA 0%, #2563EB 100%);
+        box-shadow: 0 6px 25px rgba(59,130,246,0.4); transform: translateY(-2px); 
+    }
+
+    .form-footer { text-align: center; font-size: 14px; color: rgba(255,255,255,0.5); margin-top: 24px; }
+    .form-footer a { color: #60A5FA; text-decoration: none; font-weight: 500; transition: color 0.2s; }
+    .form-footer a:hover { color: #93C5FD; text-decoration: underline; }
+
+    .go-home { 
+        position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); 
+        text-align: center; font-size: 13px; color: rgba(255,255,255,0.4); 
+        text-decoration: none; transition: color 0.2s; font-weight: 500; 
+    }
+    .go-home:hover { color: rgba(255,255,255,0.7); }
+</style>
+</head>
+<body>
+<div class="split-layout">
+    <div class="left-panel">
+        <div class="orb orb-1" data-aos="fade-in" data-aos-duration="3000"></div>
+        <div class="orb orb-2" data-aos="fade-in" data-aos-duration="3000" data-aos-delay="500"></div>
+        
+        <a href="index.html" class="left-logo" data-aos="fade-down" data-aos-duration="1200">
+            <img src="logo.webp" alt="Stackly" style="height: 64px; width: auto;"/>
+        </a>
+        
+        <div class="left-content-wrapper">
+            <h1 class="left-heading" data-aos="fade-up" data-aos-duration="1200" data-aos-delay="200">Join Stackly.</h1>
+            <p class="left-sub" data-aos="fade-up" data-aos-duration="1200" data-aos-delay="350">Create an account today and start managing your procurement operations smarter.</p>
+            
+            <div class="benefits-list">
+                <div class="benefit-item" data-aos="fade-up" data-aos-duration="1200" data-aos-delay="500">
+                    <div class="benefit-icon"><span class="material-symbols-rounded">inventory_2</span></div>
+                    <div class="benefit-text">Smart Procurement Management</div>
+                </div>
+                <div class="benefit-item" data-aos="fade-up" data-aos-duration="1200" data-aos-delay="650">
+                    <div class="benefit-icon"><span class="material-symbols-rounded">monitoring</span></div>
+                    <div class="benefit-text">Real-time Business Insights</div>
+                </div>
+                <div class="benefit-item" data-aos="fade-up" data-aos-duration="1200" data-aos-delay="800">
+                    <div class="benefit-icon"><span class="material-symbols-rounded">lock</span></div>
+                    <div class="benefit-text">Secure & Simple Access</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="right-panel">
+        <div class="right-panel-inner">
+            <div data-aos="fade-up" data-aos-duration="1200">
+                <div class="form-header-badge">
+                    <span class="material-symbols-rounded">person_add</span>
+                </div>
+                <h2 class="form-heading">Create Your Account</h2>
+                <p class="form-sub">Get started with Stackly in just a few steps.</p>
+            </div>
+
+            <form id="authForm">
+                <div class="field-group" data-aos="fade-up" data-aos-duration="1200" data-aos-delay="150">
+                    <label class="field-label">Full Name</label>
+                    <div class="input-wrapper">
+                        <span class="material-symbols-rounded icon-left">person</span>
+                        <input type="text" class="input-box" placeholder="John Doe" required>
+                    </div>
+                </div>
+                
+                <div class="field-group" data-aos="fade-up" data-aos-duration="1200" data-aos-delay="250">
+                    <label class="field-label">Email Address</label>
+                    <div class="input-wrapper">
+                        <span class="material-symbols-rounded icon-left">mail</span>
+                        <input type="email" class="input-box" placeholder="hello@stackly.com" required>
+                    </div>
+                </div>
+
+                <div class="field-group" data-aos="fade-up" data-aos-duration="1200" data-aos-delay="350">
+                    <label class="field-label">Role</label>
+                    <div class="input-wrapper">
+                        <span class="material-symbols-rounded icon-left">badge</span>
+                        <select class="select-box" name="role" required>
+                            <option value="" disabled selected>Select your role</option>
+                            <option value="admin">Admin</option>
+                            <option value="user">User</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="field-group" data-aos="fade-up" data-aos-duration="1200" data-aos-delay="450">
+                    <label class="field-label">Password</label>
+                    <div class="input-wrapper">
+                        <span class="material-symbols-rounded icon-left">key</span>
+                        <input type="password" id="pwd1" class="input-box" placeholder="Min. 8 characters" minlength="8" required oninput="checkStrength()">
+                        <span class="material-symbols-rounded icon-right" onclick="togglePassword('pwd1', this)">visibility_off</span>
+                    </div>
+                    <div class="password-strength">
+                        <div class="strength-bar" id="str1"></div>
+                        <div class="strength-bar" id="str2"></div>
+                        <div class="strength-bar" id="str3"></div>
+                    </div>
+                    <div class="strength-text" id="str-text">Weak</div>
+                </div>
+                
+                <div class="field-group" data-aos="fade-up" data-aos-duration="1200" data-aos-delay="550">
+                    <label class="field-label">Confirm Password</label>
+                    <div class="input-wrapper">
+                        <span class="material-symbols-rounded icon-left">password</span>
+                        <input type="password" id="pwd2" class="input-box" placeholder="Confirm your password" minlength="8" required>
+                        <span class="material-symbols-rounded icon-right" onclick="togglePassword('pwd2', this)">visibility_off</span>
+                    </div>
+                </div>
+
+                <div class="checkbox-group" data-aos="fade-up" data-aos-duration="1200" data-aos-delay="650">
+                    <input type="checkbox" class="custom-checkbox" id="terms" required>
+                    <label for="terms">I agree to the <a href="#">Terms & Conditions</a> and <a href="#">Privacy Policy</a></label>
+                </div>
+
+                <button type="submit" class="btn-primary" data-aos="fade-up" data-aos-duration="1200" data-aos-delay="750">Create Account</button>
+            </form>
+
+            <div class="form-footer" data-aos="fade-up" data-aos-duration="1200" data-aos-delay="850">
+                Already have an account? <a href="login.html">Sign In</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    AOS.init({ duration: 1200, once: true, easing: 'ease-out-cubic' });
+    
+    function togglePassword(id, icon) {
+        const el = document.getElementById(id);
+        if (el.type === 'password') {
+            el.type = 'text';
+            icon.textContent = 'visibility';
+        } else {
+            el.type = 'password';
+            icon.textContent = 'visibility_off';
+        }
+    }
+
+    function checkStrength() {
+        const val = document.getElementById('pwd1').value;
+        const b1 = document.getElementById('str1');
+        const b2 = document.getElementById('str2');
+        const b3 = document.getElementById('str3');
+        const txt = document.getElementById('str-text');
+        
+        let strength = 0;
+        if (val.length >= 8) strength++;
+        if (val.match(/[A-Z]/) || val.match(/[0-9]/)) strength++;
+        if (val.match(/[^a-zA-Z0-9]/)) strength++;
+        
+        if (val.length === 0) {
+            b1.style.background = b2.style.background = b3.style.background = 'rgba(255,255,255,0.1)';
+            txt.textContent = 'Weak';
+        } else if (strength === 1) {
+            b1.style.background = '#ef4444';
+            b2.style.background = b3.style.background = 'rgba(255,255,255,0.1)';
+            txt.textContent = 'Weak';
+        } else if (strength === 2) {
+            b1.style.background = b2.style.background = '#eab308';
+            b3.style.background = 'rgba(255,255,255,0.1)';
+            txt.textContent = 'Good';
+        } else {
+            b1.style.background = b2.style.background = b3.style.background = '#22c55e';
+            txt.textContent = 'Strong';
+        }
+    }
+
+    document.getElementById('authForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const pwd1 = document.getElementById('pwd1').value;
+        const pwd2 = document.getElementById('pwd2').value;
+        if(pwd1 !== pwd2) {
+            alert("Passwords do not match!");
+            return;
+        }
+        // Redirect to login page as requested
+        window.location.href = 'login.html';
+    });
+</script>
+</body>
+</html>

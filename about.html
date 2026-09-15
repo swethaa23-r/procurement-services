@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>About | Stackly</title>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com"></script>
+<script>tailwind.config = { corePlugins: { preflight: false } }</script>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- AOS Animation Library for interactivity -->
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet"/>
+<style>
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #060A20; /* Deep Navy to exactly match Home page */
+            color: #ffffff;
+            
+            margin: 0;
+            padding: 0;
+        }
+
+        /* --- Glowing Ambient Backgrounds --- */
+        .bg-glow-1 {
+            position: absolute; top: -10%; left: -10%; width: 70vw; height: 70vh;
+            background: radial-gradient(circle, rgba(37, 99, 235, 0.15) 0%, transparent 70%);
+            border-radius: 50%; filter: blur(100px); z-index: -1; pointer-events: none;
+        }
+        .bg-glow-2 {
+            position: absolute; top: 30%; right: -10%; width: 60vw; height: 60vh;
+            background: radial-gradient(circle, rgba(29, 78, 216, 0.12) 0%, transparent 60%);
+            border-radius: 50%; filter: blur(100px); z-index: -1; pointer-events: none;
+        }
+        .bg-glow-3 {
+            position: absolute; bottom: 0%; left: -10%; width: 60vw; height: 60vh;
+            background: radial-gradient(circle, rgba(37, 99, 235, 0.15) 0%, transparent 70%);
+            border-radius: 50%; filter: blur(100px); z-index: -1; pointer-events: none;
+        }
+
+        /* --- Typography --- */
+        .h1-text {
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            line-height: 1.15;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+        .body-text {
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.65);
+            line-height: 1.8;
+        }
+        
+        /* --- Glassmorphism Cards (Premium Feel) --- */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            border-radius: 16px;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .glass-card:hover {
+            background: rgba(59, 130, 246, 0.05);
+            border-color: rgba(59, 130, 246, 0.3);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3), 0 0 25px rgba(59, 130, 246, 0.15);
+        }
+
+        /* --- Timeline Styling & Animation --- */
+        .timeline-line-container {
+            position: absolute; top: 0; bottom: 0; left: 50%; transform: translateX(-50%);
+            width: 2px; background: rgba(255,255,255,0.08); z-index: 1; overflow: hidden;
+        }
+        .timeline-line-glow {
+            position: absolute; top: 0; left: 0; width: 100%; height: 150px;
+            background: linear-gradient(to bottom, transparent, #3B82F6, #60A5FA, transparent);
+            animation: travelLine 4s infinite cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 0 15px #3B82F6;
+        }
+        @keyframes travelLine {
+            0% { top: -150px; opacity: 0; }
+            20% { opacity: 1; }
+            80% { opacity: 1; }
+            100% { top: 100%; opacity: 0; }
+        }
+        .timeline-step {
+            position: relative; z-index: 2; padding: 25px 0; font-size: 0.8rem; font-weight: 500;
+            color: rgba(255,255,255,0.4); letter-spacing: 0.1em; text-transform: uppercase;
+            transition: all 0.4s ease;
+        }
+        .timeline-step:hover {
+            color: #60A5FA; text-shadow: 0 0 15px rgba(96, 165, 250, 0.5); transform: scale(1.05);
+        }
+
+        /* --- Floating Animations --- */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+        .animate-float { animation: float 7s ease-in-out infinite; }
+        .animate-float-delayed { animation: float 7s ease-in-out 3.5s infinite; }
+        
+        .floating-circle {
+            width: 280px; height: 280px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            padding: 40px; text-align: center;
+        }
+        @media (max-width: 1024px) {
+            .floating-circle { width: 100%; height: auto; border-radius: 16px; padding: 30px; animation: none; }
+        }
+
+        /* --- Image & Section Styling --- */
+        .section-padding { padding: 40px 0; }
+        .content-container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+
+        .hero-banner-container {
+            position: relative; border-radius: 12px; overflow: hidden;
+        }
+        .hero-banner-container::after {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(to top, rgba(6,10,32,0.8) 0%, transparent 50%);
+            pointer-events: none; z-index: 10;
+        }
+        .hero-banner {
+            width: 100%; height: 380px; object-fit: cover;
+            transition: transform 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .hero-banner-container:hover .hero-banner { transform: scale(1.04); }
+
+        .mission-img-wrapper {
+            position: relative; z-index: 2; padding: 20px; display: flex; justify-content: center;
+        }
+        .mission-img-wrapper::before {
+            content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 140%; height: 140%;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.3) 0%, transparent 60%);
+            z-index: -1; filter: blur(40px); transition: opacity 0.6s ease; opacity: 0.6;
+        }
+        .mission-img-wrapper:hover::before { opacity: 1; background: radial-gradient(circle, rgba(59, 130, 246, 0.5) 0%, transparent 65%); }
+        
+        .btn-premium {
+            position: relative; overflow: hidden;
+            background: #0D1432; border: 1px solid rgba(59, 130, 246, 0.4);
+            color: #fff; padding: 14px 32px; border-radius: 6px; font-weight: 600; font-size: 13px;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.1);
+            z-index: 1; display: inline-block; text-decoration: none; text-align: center;
+        }
+        .btn-premium::before {
+            content: ''; position: absolute; inset: 0; background: #2563EB;
+            z-index: -1; transform: translateY(100%); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .btn-premium:hover { border-color: #3B82F6; box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3); color: #fff; }
+        .btn-premium:hover::before { transform: translateY(0); }
+
+        /* --- Custom CTA Looking Ahead styles matching Home Page --- */
+        .final-cta-section {
+            position: relative;
+            width: 100%;
+            padding: 40px 24px;
+            background: linear-gradient(180deg, #081033 0%, #040716 100%);
+            overflow: hidden;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            text-align: center;
+        }
+        .cta-gradient-bg {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 120%;
+            height: 120%;
+            background: radial-gradient(circle at center, rgba(16, 42, 115, 0.4) 0%, transparent 70%);
+            z-index: 1;
+            pointer-events: none;
+        }
+        .final-cta-container {
+            position: relative;
+            max-width: 860px;
+            margin: 0 auto;
+            z-index: 2;
+        }
+        .large-cta-heading {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 600;
+            line-height: 1.15;
+            letter-spacing: -0.02em;
+            margin-bottom: 24px;
+            color: #ffffff;
+        }
+        .cta-support-text {
+            font-size: 18px;
+            line-height: 1.68;
+            color: rgba(255, 255, 255, 0.76);
+            max-width: 680px;
+            margin: 0 auto 32px;
+        }
+        .cta-primary-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: #ffffff;
+            color: #040716;
+            padding: 16px 40px;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 4px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .cta-primary-btn:hover {
+            background: #f0f0f0;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+    </style>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="styles.css" rel="stylesheet"/>
+</head>
+<body class="relative overflow-x-hidden">
+<!-- CONTENT PRELOADER -->
+<div id="preloader" class="preloader">
+    <div class="preloader-bg-particles"></div>
+    <div class="preloader-content">
+        <div class="preloader-logo-wrapper">
+            <img src="logo.webp" alt="Stackly" class="preloader-logo" />
+        </div>
+        <div class="preloader-animation">
+            <div class="pl-nodes-container">
+                <div class="pl-node pl-node-1">
+                    <div class="pl-icon-circle"><i class="fa-solid fa-magnifying-glass"></i></div>
+                    <div class="pl-node-text">SOURCE</div>
+                </div>
+                <div class="pl-line pl-line-1"></div>
+                <div class="pl-node pl-node-2">
+                    <div class="pl-icon-circle"><i class="fa-solid fa-truck"></i></div>
+                    <div class="pl-node-text">SUPPLIER</div>
+                </div>
+                <div class="pl-line pl-line-2"></div>
+                <div class="pl-node pl-node-3">
+                    <div class="pl-icon-circle"><i class="fa-solid fa-file-signature"></i></div>
+                    <div class="pl-node-text">CONTRACT</div>
+                </div>
+                <div class="pl-line pl-line-3"></div>
+                <div class="pl-node pl-node-4">
+                    <div class="pl-icon-circle pl-icon-accent"><i class="fa-solid fa-check-double"></i></div>
+                    <div class="pl-node-text pl-node-text-accent">PROCURE</div>
+                </div>
+            </div>
+        </div>
+        <div class="preloader-text-area">
+            <h3 class="pl-heading">Procurement, built around your business</h3>
+            <div class="pl-message-container">
+                <span class="pl-message active">Strategic sourcing...</span>
+                <span class="pl-message">Connecting suppliers...</span>
+                <span class="pl-message">Optimizing procurement...</span>
+                <span class="pl-message">Building partnerships...</span>
+            </div>
+        </div>
+        <div class="preloader-progress-area">
+            <div class="pl-progress-track"><div class="pl-progress-bar"></div></div>
+        </div>
+    </div>
+</div>
+<!-- Global Background Glows -->
+<div class="bg-glow-1"></div>
+<div class="bg-glow-2"></div>
+<div class="bg-glow-3"></div>
+<!-- Navigation Header -->
+<header class="navbar" id="navbar">
+<div class="nav-inner">
+    <a class="logo" href="index.html">
+        <img src="logo.webp" alt="Stackly" style="height:64px;width:auto;" />
+    </a>
+    <div class="nav-menu-wrapper" id="nav-menu-wrapper">
+        <nav class="nav-links">
+            <a class="nav-link " href="index.html">Home</a>
+            <a class="nav-link active" href="about.html">About</a>
+            <a class="nav-link " href="services.html">Services</a>
+            <a class="nav-link " href="blog.html">Blog</a>
+            <a class="nav-link " href="contact.html">Contact</a>
+        </nav>
+        <div class="nav-auth">
+            <a class="login-btn" href="login.html">Log in</a>
+            <a class="btn-primary" href="signup.html">Get Started</a>
+        </div>
+    </div>
+    <button class="hamburger-btn" id="hamburger-btn" aria-label="Toggle navigation">
+        <span></span><span></span><span></span>
+    </button>
+</div>
+</header>
+<!-- MAIN CONTENT -->
+<main class="pt-[72px] relative z-10 w-full overflow-hidden flex flex-col gap-10 md:gap-14">
+<!-- SECTION 1: Hero -->
+<section class="section-padding content-container pt-8 lg:pt-6 flex flex-col gap-8">
+<!-- Center Header -->
+<div class="text-center" data-aos="fade-up">
+<h1 class="h1-text">Procurement That Moves Business Forward</h1>
+</div>
+<!-- Content Left, Image Right -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 items-center">
+<!-- Left Content -->
+<div class="flex flex-col gap-6" data-aos="fade-right" data-aos-delay="200">
+<div class="glass-card p-6 md:p-8 relative overflow-hidden group">
+<div class="absolute inset-0 bg-blue-500/10 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"></div>
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-blue-400 to-blue-600 rounded-l-xl"></div>
+<p class="body-text !text-white/95 !leading-relaxed relative z-10 font-medium">We are a strategic procurement partner helping businesses make smarter purchasing decisions, build stronger supplier relationships, and create lasting value from their spending.</p>
+</div>
+<p class="body-text pl-4 border-l-2 border-blue-500/30">From sourcing and supplier selection to negotiation, purchasing, and performance management, we bring structure and clarity to every stage of procurement.</p>
+</div>
+<!-- Right Image -->
+<div class="hero-banner-container glass-card p-2 group" data-aos="zoom-in" data-aos-delay="400">
+<div class="absolute inset-0 bg-blue-600/20 blur-[80px] -z-10 rounded-full group-hover:bg-blue-600/30 transition-all duration-700"></div>
+<img alt="Knotted rope representing strength and connection" class="hero-banner rounded-lg relative z-0" src="images/about-rope.webp"/>
+</div>
+</div>
+</section>
+<!-- SECTION 2: Timeline / Approach -->
+<section class="section-padding content-container relative">
+<div data-aos="fade-up">
+<!-- Centered Heading -->
+<h2 class="h1-text text-center mb-8"><span class="text-[#3B82F6] drop-shadow-[0_0_8px_rgba(59,130,246,0.8)]">.</span> Our Approach Is <br class="hidden md:block"/> Strategy Meets Execution</h2>
+</div>
+<!-- Desktop Layout -->
+<div class="hidden md:grid grid-cols-3 gap-8 w-full items-center relative mt-8">
+<!-- Col 1 -->
+<div class="flex justify-end pr-8" data-aos="fade-right" data-aos-delay="300">
+<div class="floating-circle glass-card animate-float">
+<p class="body-text text-center text-[13px] leading-relaxed">We combine strategic thinking with hands-on procurement expertise. First, we understand your business, spending patterns, suppliers, and challenges. Then, we build practical strategies that deliver measurable improvements.</p>
+</div>
+</div>
+<!-- Col 2: The Timeline -->
+<div class="relative flex flex-col items-center py-8">
+<div class="timeline-line-container"><div class="timeline-line-glow"></div></div>
+<div class="timeline-step" data-aos="fade-up" data-aos-delay="100">Understand</div>
+<div class="timeline-step" data-aos="fade-up" data-aos-delay="200">Strategize</div>
+<div class="timeline-step" data-aos="fade-up" data-aos-delay="300">Strategize</div>
+<div class="timeline-step" data-aos="fade-up" data-aos-delay="400">Strategize</div>
+<div class="timeline-step" data-aos="fade-up" data-aos-delay="500">Optimize</div>
+<div class="timeline-step" data-aos="fade-up" data-aos-delay="600">Improve</div>
+</div>
+<!-- Col 3 -->
+<div class="flex justify-start pl-8 mt-16" data-aos="fade-left" data-aos-delay="500">
+<div class="floating-circle glass-card animate-float-delayed">
+<p class="body-text text-center text-[13px] leading-relaxed">Our approach stays focused on one thing: creating procurement processes that work in the real world.</p>
+</div>
+</div>
+</div>
+<!-- Mobile Layout Fallback -->
+<div class="md:hidden flex flex-col gap-6 mt-8">
+<div class="glass-card p-6" data-aos="fade-up">
+<p class="body-text text-sm">We combine strategic thinking with hands-on procurement expertise. First, we understand your business, spending patterns, suppliers, and challenges. Then, we build practical strategies that deliver measurable improvements.</p>
+</div>
+<div class="relative flex flex-col items-center py-8">
+<div class="timeline-line-container"><div class="timeline-line-glow"></div></div>
+<div class="timeline-step">Understand</div>
+<div class="timeline-step">Strategize</div>
+<div class="timeline-step">Strategize</div>
+<div class="timeline-step">Strategize</div>
+<div class="timeline-step">Optimize</div>
+<div class="timeline-step">Improve</div>
+</div>
+<div class="glass-card p-6" data-aos="fade-up">
+<p class="body-text text-sm">Our approach stays focused on one thing: creating procurement processes that work in the real world.</p>
+</div>
+</div>
+</section>
+<!-- SECTION 3: Mission -->
+<section class="section-padding relative">
+<div class="absolute inset-0 border-t border-white/5 pointer-events-none"></div>
+<div class="content-container flex flex-col gap-8">
+<!-- Centered Title -->
+<div class="text-center" data-aos="fade-up">
+<h2 class="text-[2.2rem] font-semibold leading-tight tracking-tight"><span class="text-[#3B82F6] drop-shadow-[0_0_8px_rgba(59,130,246,0.8)]">.</span>Our Mission is Making Every Purchase Count</h2>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+<!-- Left Image -->
+<div class="mission-img-wrapper" data-aos="fade-right" data-aos-delay="100">
+<img alt="Technology Mission" class="w-full max-w-[320px] h-auto object-cover rounded mix-blend-lighten transform hover:scale-105 transition-transform duration-700 border border-white/10 shadow-[0_0_40px_rgba(59,130,246,0.2)]" src="images/about-mission.webp"/>
+</div>
+<!-- Right Text -->
+<div class="body-text flex flex-col gap-6" data-aos="fade-left" data-aos-delay="200">
+<p>Great procurement isn't simply about finding the lowest price. It's about finding the right supplier, the right terms, the right quality, and the right long-term value. We combine procurement expertise, supplier intelligence, spend analysis, and disciplined execution to help businesses make purchasing decisions with confidence.</p>
+<p>Our approach connects strategic sourcing with day-to-day procurement, giving your team greater visibility, stronger control, and measurable business impact.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- SECTION 4: What Sets Us Apart -->
+<section class="section-padding content-container relative">
+<div class="absolute inset-0 bg-blue-600/5 blur-[120px] rounded-full z-0 pointer-events-none"></div>
+<div class="relative z-10 flex flex-col items-center">
+<!-- Heading Centered -->
+<h2 class="h1-text mb-8 text-center" data-aos="fade-up">What Sets <span class="text-blue-400">Us Apart</span></h2>
+<!-- Passage in Middle with a Line -->
+<div class="text-center max-w-2xl mb-6" data-aos="fade-up" data-aos-delay="100">
+<p class="body-text mb-8">We look at your unique requirements, supplier landscape, operational needs, and growth plans to create solutions that fit the way your business actually works.</p>
+<div class="w-24 h-1 bg-gradient-to-r from-transparent via-blue-500 to-transparent mx-auto rounded-full"></div>
+</div>
+<!-- 4 Cards in Horizontal View -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 w-full">
+<div class="glass-card p-6 group relative overflow-hidden" data-aos="fade-up" data-aos-delay="100">
+<div class="w-8 h-1 bg-blue-500/50 rounded-full mb-6 group-hover:w-12 group-hover:bg-blue-400 transition-all duration-300 shadow-[0_0_10px_rgba(59,130,246,0.5)]"></div>
+<h3 class="text-white font-semibold text-[14px] mb-3 tracking-wide">Data-driven decisions</h3>
+<p class="body-text !text-[13px]">Clear insights that reveal where opportunities exist.</p>
+</div>
+<div class="glass-card p-6 group relative overflow-hidden" data-aos="fade-up" data-aos-delay="200">
+<div class="w-8 h-1 bg-blue-500/50 rounded-full mb-6 group-hover:w-12 group-hover:bg-blue-400 transition-all duration-300 shadow-[0_0_10px_rgba(59,130,246,0.5)]"></div>
+<h3 class="text-white font-semibold text-[14px] mb-3 tracking-wide">Supplier intelligence</h3>
+<p class="body-text !text-[13px]">Better visibility into supplier capabilities, performance, and risk.</p>
+</div>
+<div class="glass-card p-6 group relative overflow-hidden" data-aos="fade-up" data-aos-delay="300">
+<div class="w-8 h-1 bg-blue-500/50 rounded-full mb-6 group-hover:w-12 group-hover:bg-blue-400 transition-all duration-300 shadow-[0_0_10px_rgba(59,130,246,0.5)]"></div>
+<h3 class="text-white font-semibold text-[14px] mb-3 tracking-wide">Practical expertise</h3>
+<p class="body-text !text-[13px]">Strategies designed to work beyond presentations and spreadsheets.</p>
+</div>
+<div class="glass-card p-6 group relative overflow-hidden" data-aos="fade-up" data-aos-delay="400">
+<div class="w-8 h-1 bg-blue-500/50 rounded-full mb-6 group-hover:w-12 group-hover:bg-blue-400 transition-all duration-300 shadow-[0_0_10px_rgba(59,130,246,0.5)]"></div>
+<h3 class="text-white font-semibold text-[14px] mb-3 tracking-wide">Long-term thinking</h3>
+<p class="body-text !text-[13px]">We focus on sustainable value, not short-term savings alone.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- SECTION 5: Commitment -->
+<section class="section-padding content-container border-t border-white/5">
+<div class="mb-8" data-aos="fade-up">
+<!-- Headline styled as line heading -->
+<h2 class="text-[2.2rem] font-bold tracking-tight text-white mb-4 border-l-4 border-blue-500 pl-6 leading-tight">Your Goals Become <br class="hidden md:block"/> <span class="text-blue-400">Our Priorities</span></h2>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+<!-- Left Content -->
+<div class="glass-card p-8 md:p-12" data-aos="fade-right" data-aos-delay="100">
+<h3 class="text-xl font-semibold mb-6 text-white tracking-wide">Our Commitment</h3>
+<div class="body-text flex flex-col gap-5 !text-[14px]">
+<p>Procurement decisions have a ripple effect across an entire organization. A better supplier can improve quality. Better terms can improve cash flow. A simpler process can give your team valuable time back. That's why we work as an extension of your team, bringing transparency, accountability, and expertise to decisions that matter.</p>
+<p>We don't just manage purchases. We help protect what your business is building.</p>
+</div>
+</div>
+<!-- Right Image -->
+<div class="relative w-full max-w-[320px] mx-auto group" data-aos="fade-left" data-aos-delay="200">
+<div class="absolute inset-0 bg-blue-500/20 blur-2xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"></div>
+<img alt="Our Commitment" class="relative z-10 w-full h-auto rounded-xl object-cover transform group-hover:scale-[1.03] transition-transform duration-700 border border-white/10 shadow-[0_30px_60px_rgba(0,0,0,0.6)]" src="images/about-commitment.webp"/>
+</div>
+</div>
+</section>
+<!-- SECTION 6: Looking Ahead -->
+<section class="section-padding content-container mb-6">
+<div class="final-cta-section" data-aos="zoom-in">
+<div class="cta-gradient-bg"></div>
+<div class="final-cta-container">
+<h2 class="large-cta-heading" data-aos="fade-up" data-aos-delay="100">Looking Ahead</h2>
+<p class="cta-support-text" data-aos="fade-up" data-aos-delay="200">The world of procurement is changing. Markets move faster, supply chains are more complex, and businesses need greater visibility into every dollar they spend. We are building a procurement model that is smarter, more connected, and ready for what's next - combining human expertise, technology, data, and strong supplier relationships.</p>
+<div class="cta-btn-wrapper" data-aos="fade-up" data-aos-delay="300">
+<a class="cta-primary-btn" href="services.html">
+<span class="btn-text">Explore Our Services</span>
+</a>
+</div>
+</div>
+</div>
+</section>
+</main>
+<footer class="border-t border-white/10 pt-8 pb-4 mt-4 relative z-10" id="contact" style="background: rgba(4, 7, 22, 0.6); backdrop-filter: blur(10px);">
+  <div class="w-full px-6" style="max-width: 1240px; margin: 0 auto; box-sizing: border-box;">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+<!-- COLUMN 1: LOGO -->
+<div data-aos="fade-up" data-aos-duration="800">
+<a class="footer-logo" href="index.html">
+<img alt="Stackly" src="logo.webp" style="height: 64px; width: auto;"/>
+</a>
+<p class="text-[13px] text-gray-400 leading-relaxed mb-6">Smarter procurement.<br/>Stronger businesses.</p>
+<div>
+<span class="block text-[12px] font-semibold tracking-widest text-gray-500 mb-4 uppercase">FOLLOW STACKLY</span>
+<div class="flex flex-wrap gap-3">
+<a class="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-gray-300 hover:bg-[#3B82F6] hover:border-[#3B82F6] hover:text-white hover:-translate-y-1 transition-all duration-300" href="404.html"><svg fill="currentColor" height="18" viewbox="0 0 24 24" width="18"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"></path></svg></a>
+<a class="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-gray-300 hover:bg-[#3B82F6] hover:border-[#3B82F6] hover:text-white hover:-translate-y-1 transition-all duration-300" href="404.html"><svg fill="currentColor" height="18" viewbox="0 0 24 24" width="18"><path d="M21.216 3h-3.322l-7.256 8.29-5.791-8.29h-8.847l9.638 13.793-7.638 8.717h3.322l7.669-8.761 6.134 8.761h8.875l-10.155-14.537 7.371-8.423zm-4.708 19.537h-2.188l-11.139-15.933h2.292l9.96 14.249h2.075l-10.999-15.733h-2.071l12.07 17.417z"></path></svg></a>
+<a class="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-gray-300 hover:bg-[#3B82F6] hover:border-[#3B82F6] hover:text-white hover:-translate-y-1 transition-all duration-300" href="404.html"><svg fill="currentColor" height="18" viewbox="0 0 24 24" width="18"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"></path></svg></a>
+<a class="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-gray-300 hover:bg-[#3B82F6] hover:border-[#3B82F6] hover:text-white hover:-translate-y-1 transition-all duration-300" href="404.html"><svg fill="currentColor" height="18" viewbox="0 0 24 24" width="18"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"></path></svg></a>
+<a class="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-gray-300 hover:bg-[#3B82F6] hover:border-[#3B82F6] hover:text-white hover:-translate-y-1 transition-all duration-300" href="404.html"><svg fill="currentColor" height="18" viewbox="0 0 24 24" width="18"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.5 12 3.5 12 3.5s-7.505 0-9.377.55a3.015 3.015 0 0 0-2.122 2.136C0 8.07 0 12 0 12s0 3.93.498 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.55 9.377.55 9.377.55s7.505 0 9.377-.55a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"></path></svg></a>
+</div>
+</div>
+</div>
+<!-- COLUMN 2: QUICK LINKS -->
+<div data-aos="fade-up" data-aos-delay="100" data-aos-duration="800">
+<h4 class="text-white font-semibold mb-6 tracking-wide text-[14px]">QUICK LINKS</h4>
+<ul class="flex flex-col gap-3 text-[13px] text-gray-400 list-none p-0 m-0">
+<li><a class="hover:text-white transition-colors" href="index.html">Home</a></li>
+<li><a class="hover:text-white transition-colors" href="about.html">About</a></li>
+<li><a class="hover:text-white transition-colors" href="404.html">Services</a></li>
+<li><a class="hover:text-white transition-colors" href="blog.html">Blog</a></li>
+<li><a class="hover:text-white transition-colors" href="contact.html">Contact</a></li>
+</ul>
+</div>
+<!-- COLUMN 3: SERVICES -->
+<div data-aos="fade-up" data-aos-delay="200" data-aos-duration="800">
+<h4 class="text-white font-semibold mb-6 tracking-wide text-[14px]">SERVICES</h4>
+<ul class="flex flex-col gap-3 text-[13px] text-gray-400 list-none p-0 m-0">
+<li><a class="hover:text-white transition-colors" href="404.html">Strategic Sourcing</a></li>
+<li><a class="hover:text-white transition-colors" href="404.html">Spend Management</a></li>
+<li><a class="hover:text-white transition-colors" href="404.html">Contract Management</a></li>
+<li><a class="hover:text-white transition-colors" href="404.html">Source-to-Pay</a></li>
+</ul>
+</div>
+<!-- COLUMN 4: GET IN TOUCH -->
+<div data-aos="fade-up" data-aos-delay="300" data-aos-duration="800">
+<h4 class="text-white font-semibold mb-6 tracking-wide text-[14px]">GET IN TOUCH</h4>
+<ul class="flex flex-col gap-3 text-[13px] text-gray-400 list-none p-0 m-0">
+<li>+91 90909 09090</li>
+<li>info@stackly.com</li>
+<li class="leading-relaxed">MMR Complex, Chinna Thirupathi,<br/>Near by Chinna Moniyappan Kovil,<br/>Salem 636008.</li>
+</ul>
+</div>
+</div>
+<!-- DIVIDER -->
+<hr class="border-white/10 m-0"/>
+<!-- BOTTOM COPYRIGHT -->
+<div class="flex flex-row justify-between items-center gap-4 pt-6" data-aos="fade-up" data-aos-delay="400" data-aos-duration="800">
+<p class="text-[14px] text-gray-500 m-0">Copyright &copy; 2026 Stackly </p>
+<div class="flex gap-6">
+<a class="text-[14px] text-gray-500 hover:text-[#3B82F6] transition-colors" href="404.html">Privacy Policies</a>
+<a class="text-[14px] text-gray-500 hover:text-[#3B82F6] transition-colors" href="404.html">Terms &amp; Condition</a>
+</div>
+</div>
+</div>
+</footer>
+<!-- AOS Animation Initialization -->
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+        AOS.init({
+            duration: 800,
+            once: false,
+            offset: 50,
+            easing: 'ease-out-cubic'
+        });
+    </script>
+<script src="script.js"></script>
+</body>
+</html>
+
